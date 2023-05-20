@@ -139,7 +139,6 @@
         android:layout_marginStart="60dp"
         android:layout_marginEnd="5dp"
         android:entries="@array/opciones_array"
-        android:popupBackground="#DCDADA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
