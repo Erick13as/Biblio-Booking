@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Biblio-Booking</string>
+    <string-array name="opciones_array">
+        <item>NO</item>
+        <item>SI</item>
+    </string-array>
+
+    <string-array name="opciones2_array">
+        <item>LIBRE</item>
+        <item>OCUPADO</item>
+        <item>MANTENIMIENTO</item>
+    </string-array>
+
 </resources>
