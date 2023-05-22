@@ -12,6 +12,9 @@
         android:theme="@style/Theme.BiblioBooking"
         tools:targetApi="31">
         <activity
+            android:name=".Principal"
+            android:exported="false" />
+        <activity
             android:name=".EliminarEstudianteActivity"
             android:exported="false" />
         <activity
