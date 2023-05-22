@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/modifcartexto"
+        android:id="@+id/texto"
         android:layout_width="336dp"
         android:layout_height="51dp"
         android:layout_marginStart="38dp"
