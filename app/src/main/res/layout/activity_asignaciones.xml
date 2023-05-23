@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/backgroundMain"
-    tools:context=".MainEstudiante">
-
+    tools:context=".Asignaciones">
 
     <TextView
         android:id="@+id/texto"
@@ -14,7 +13,7 @@
         android:layout_height="116dp"
         android:layout_marginEnd="37dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Bienvenid@ Estudiante"
+        android:text="Administrar Asignaciones"
         android:textAlignment="center"
         android:textColor="#A0FFFF"
         android:textSize="40sp"
@@ -24,32 +23,16 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.317" />
+        app:layout_constraintVertical_bias="0.243" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/ordenes"
+        android:id="@+id/eliminar"
         android:layout_width="158dp"
         android:layout_height="48dp"
-        android:layout_marginTop="380dp"
+        android:layout_marginTop="308dp"
         android:background="@drawable/round_button_background"
         android:fontFamily="sans-serif-medium"
-        android:text="Ver historial de ordenes"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.936"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/cerrarsesión"
-        android:layout_width="158dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="468dp"
-        android:background="@drawable/round_button_background"
-        android:fontFamily="sans-serif-medium"
-        android:text="Cerrar Sesión"
+        android:text="Eliminar Asignación"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
@@ -59,20 +42,51 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/solicitar"
+        android:id="@+id/modificar"
         android:layout_width="158dp"
         android:layout_height="48dp"
-        android:layout_marginStart="45dp"
         android:layout_marginTop="380dp"
-        android:layout_marginEnd="208dp"
         android:background="@drawable/round_button_background"
         android:fontFamily="sans-serif-medium"
-        android:text="Solicitar Cubículo"
+        android:text="Modificar Asignación"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/volver"
+        android:layout_width="158dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="536dp"
+        android:background="@drawable/round_button_background"
+        android:fontFamily="sans-serif-medium"
+        android:text="Volver"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/agregar"
+        android:layout_width="158dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="456dp"
+        android:background="@drawable/round_button_background"
+        android:fontFamily="sans-serif-medium"
+        android:text="Agregar asignación"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,6 +100,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.001"
         app:srcCompat="@drawable/logo2" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
