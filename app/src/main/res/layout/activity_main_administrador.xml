@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundMain"
+    android:background="@drawable/backgroundmain"
     tools:context=".MainAdministrador">
 
     <TextView
@@ -17,7 +17,7 @@
         android:textAlignment="center"
         android:textColor="#A0FFFF"
         android:textSize="40sp"
-        android:textstyle="bold"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/backgroundMain"
+    android:background="@drawable/backgroundmain"
     tools:context=".Asignaciones">
 
     <TextView
@@ -17,7 +17,7 @@
         android:textAlignment="center"
         android:textColor="#A0FFFF"
         android:textSize="40sp"
-        android:textstyle="bold"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -75,13 +75,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/agregar"
+        android:id="@+id/Consultar"
         android:layout_width="158dp"
         android:layout_height="48dp"
         android:layout_marginTop="456dp"
         android:background="@drawable/round_button_background"
         android:fontFamily="sans-serif-medium"
-        android:text="Agregar asignación"
+        android:text="Consultar asignación"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"

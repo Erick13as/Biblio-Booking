@@ -21,6 +21,19 @@ public class Asignaciones extends AppCompatActivity {
             }
         });
 
+        Button button2 = (Button) findViewById(R.id.Consultar);
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                OpenConsultarAsignaciones();
+            }
+        });
+
+        /*Button button3 = (Button) findViewById(R.id.modificar);
+        button3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                OpenModificarAsignaciones();
+            }
+        });*/
 
 
     }
@@ -28,6 +41,16 @@ public class Asignaciones extends AppCompatActivity {
         Intent intent = new Intent(this, MainAdministrador.class);
         startActivity(intent);
     }
+
+    public void OpenConsultarAsignaciones() {
+        Intent intent = new Intent(this, ConsultarAsignaciones.class);
+        startActivity(intent);
+    }
+
+    /*public void OpenModificarAsignaciones() {
+        Intent intent = new Intent(this, ModificarAsignaciones.class);
+        startActivity(intent);
+    }*/
 
 
 }
