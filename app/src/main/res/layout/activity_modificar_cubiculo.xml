@@ -6,6 +6,47 @@
     android:layout_height="match_parent"
     tools:context=".ModificarCubiculoActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buscar2"
+        android:layout_width="159dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="656dp"
+        android:background="@drawable/round_button_background"
+        android:backgroundTint="#0C25A6"
+        android:fontFamily="sans-serif-medium"
+        android:text="Buscar Cubículo"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/guardar2"
+        android:layout_width="158dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="212dp"
+        android:layout_marginTop="656dp"
+        android:background="@drawable/round_button_background"
+        android:backgroundTint="#0C25A6"
+        android:fontFamily="sans-serif-medium"
+        android:text="Guardar Cambios"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="99dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="156dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo2" />
+
     <Spinner
         android:id="@+id/spinnerservicios"
         android:layout_width="227dp"
@@ -26,42 +67,6 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/buscar2"
-        android:layout_width="158dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="644dp"
-        android:layout_marginEnd="208dp"
-        android:backgroundTint="#0C25A6"
-        android:fontFamily="sans-serif-medium"
-        android:text="Buscar cubículo"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/guardar2"
-        android:layout_width="158dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="203dp"
-        android:layout_marginTop="644dp"
-        android:layout_marginEnd="50dp"
-        android:backgroundTint="#0C25A6"
-        android:fontFamily="sans-serif-medium"
-        android:text="Guardar cambios"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
