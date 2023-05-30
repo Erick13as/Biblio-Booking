@@ -142,21 +142,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/volver"
         android:layout_width="158dp"
         android:layout_height="48dp"
         android:layout_marginTop="652dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="31dp"
         android:background="@drawable/round_button_background"
         android:fontFamily="sans-serif-medium"
         android:text="volver"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.845"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/Registro"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -165,15 +166,16 @@
         android:layout_height="48dp"
         android:layout_marginStart="45dp"
         android:layout_marginTop="652dp"
-        android:layout_marginEnd="208dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="31dp"
         android:background="@drawable/round_button_background"
         android:fontFamily="sans-serif-medium"
         android:text="Registrarse"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/volver"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

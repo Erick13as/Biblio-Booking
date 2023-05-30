@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "367759284201",
+    "project_id": "biblio-booking",
+    "storage_bucket": "biblio-booking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:367759284201:android:b393cc4661706c1d149d78",
+        "android_client_info": {
+          "package_name": "com.example.biblio_booking"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCyCdf4PtkGCOwcZzphakfBEYEMYXgv7jw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
