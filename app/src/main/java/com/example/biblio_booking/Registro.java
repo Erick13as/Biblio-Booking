@@ -64,7 +64,7 @@ public class Registro extends AppCompatActivity {
         User user = new User(nombre, apellido, apellido2, carnet, fechaNac, correo, contraseña);
 
         // Get a reference to the "users" collection in Firestore
-        CollectionReference usersCollection = mFirestore.collection("users");
+        CollectionReference usersCollection = mFirestore.collection("usuario");
 
         // Upload the user data to Firestore
         usersCollection.add(user)
