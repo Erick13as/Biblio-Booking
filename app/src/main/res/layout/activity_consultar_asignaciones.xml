@@ -87,7 +87,7 @@
         android:layout_marginTop="580dp"
         android:background="@drawable/round_button_background"
         android:fontFamily="sans-serif-medium"
-        android:text="Ver Información"
+        android:text="Ver Asignaciones"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
