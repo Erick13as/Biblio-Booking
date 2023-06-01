@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +21,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class Registro extends AppCompatActivity {
 
     private FirebaseFirestore mFirestore;
+
     private TextView editTextFecha;
     private DatePickerDialog.OnDateSetListener dateSetListener;
     @Override

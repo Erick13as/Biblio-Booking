@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(this, Registro.class);
+        Intent intent = new Intent(this, SolicitarCubiculoActivity.class);
         startActivity(intent);
         finish();
     }
