@@ -58,7 +58,7 @@ public class MainAdministrador extends AppCompatActivity {
         startActivity(intent);
     }
     public void OpenAsignaciones() {
-        Intent intent = new Intent(this, Asignaciones.class);
+        Intent intent = new Intent(this, ConsultarAsignaciones.class);
         startActivity(intent);
     }
 }

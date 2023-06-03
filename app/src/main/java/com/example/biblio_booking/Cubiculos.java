@@ -13,8 +13,8 @@ public class Cubiculos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cubiculos);
-        Button button = (Button) findViewById(R.id.volver);
-        button.setOnClickListener (new View.OnClickListener() {
+        Button backButton = (Button) findViewById(R.id.volver);
+        backButton.setOnClickListener (new View.OnClickListener() {
             public void onClick(View v) {
                 reOpenMainAdministrador();
             }

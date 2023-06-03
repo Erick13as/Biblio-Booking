@@ -14,17 +14,17 @@ public class ConsultarAsignaciones extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consultar_asignaciones);
 
-        Button button = (Button) findViewById(R.id.volver);
-        button.setOnClickListener(new View.OnClickListener() {
+        Button backButton = (Button) findViewById(R.id.volver);
+        backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                reOpenAsignaciones();
+                reOpenMainAdministrador();
             }
         });
 
     }
 
-    public void reOpenAsignaciones() {
-        Intent intent = new Intent(this, Asignaciones.class);
+    public void reOpenMainAdministrador() {
+        Intent intent = new Intent(this, MainAdministrador.class);
         startActivity(intent);
     }
 }
