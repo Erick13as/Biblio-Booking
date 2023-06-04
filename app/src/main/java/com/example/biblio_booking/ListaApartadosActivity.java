@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -34,6 +35,9 @@ public class ListaApartadosActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener dateSetListener;
     private List<DocumentSnapshot> allAssignments;
 
+    private boolean isSearchPerformed = false;
+    private boolean isSearchSuccessful = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,8 @@ public class ListaApartadosActivity extends AppCompatActivity {
         editText2 = findViewById(R.id.editText2);
         linearLayout = findViewById(R.id.linearLayout);
         Button buttonB = findViewById(R.id.ButtonB); // Find the button with ID "ButtonB"
+        Button buttonE = findViewById(R.id.ButtonE); // Find the button with ID "ButtonE"
+        Button buttonC = findViewById(R.id.ButtonC); // Find the button with ID "ButtonC"
 
         // Set click listener for the date button
         editText2.setOnClickListener(new View.OnClickListener() {
@@ -72,13 +78,82 @@ public class ListaApartadosActivity extends AppCompatActivity {
                 // Check if both editText and editText2 have values
                 if (!searchText.isEmpty() && !selectedDate.isEmpty()) {
                     filterAssignments("Cubiculo" + searchText, selectedDate);
+                    isSearchPerformed = true; // Set search performed flag
                 } else {
                     // Show a toast message indicating that information is required
                     Toast.makeText(ListaApartadosActivity.this, "Llene todos los espacios", Toast.LENGTH_SHORT).show();
+                    isSearchPerformed = false; // Reset search performed flag
                 }
             }
         });
 
+        buttonE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSearchPerformed && isSearchSuccessful) {
+                    // Get the cubiculo and fecha values of the searched assignment
+                    String searchText = editText.getText().toString();
+                    String selectedDate = editText2.getText().toString();
+
+                    // Iterate over the assignment documents
+                    for (DocumentSnapshot document : allAssignments) {
+                        String cubiculoAsignado = document.getString("cubiculo");
+                        String fechaAsignada = document.getString("fecha");
+
+                        if (cubiculoAsignado.toLowerCase().contains(searchText.toLowerCase())
+                                && fechaAsignada.equals(selectedDate)) {
+                            // Get the reference to the assignment document
+                            String assignmentId = document.getId();
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            CollectionReference assignmentsRef = db.collection("Asignacion");
+                            DocumentReference assignmentDocRef = assignmentsRef.document(assignmentId);
+
+                            // Delete the assignment document
+                            assignmentDocRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        // Document successfully deleted
+                                        Toast.makeText(ListaApartadosActivity.this, "Asignación eliminada", Toast.LENGTH_SHORT).show();
+
+                                        // Clear the search text fields and update the UI
+                                        editText.setText("");
+                                        editText2.setText("");
+                                        linearLayout.removeAllViews();
+                                        isSearchPerformed = false;
+                                        isSearchSuccessful = false;
+
+                                        // Fetch all the assignments again to update the UI
+                                        fetchAllAssignments();
+                                    } else {
+                                        // Failed to delete the document
+                                        Toast.makeText(ListaApartadosActivity.this, "Error al eliminar la asignación", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                            break; // Exit the loop after deleting the assignment
+                        }
+                    }
+                } else {
+                    // Show a toast message indicating that a successful search is required
+                    Toast.makeText(ListaApartadosActivity.this, "Busque una asignación", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        buttonC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSearchPerformed && isSearchSuccessful) {
+                    // Perform the "Confirmar" button functionality
+                    // ...
+                } else {
+                    // Show a toast message indicating that a successful search is required
+                    Toast.makeText(ListaApartadosActivity.this, "Busque una asignación", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         // Fetch all the assignments from Firestore initially
         fetchAllAssignments();
@@ -165,6 +240,9 @@ public class ListaApartadosActivity extends AppCompatActivity {
             }
         }
 
+        // Update the search successful flag based on the match found status
+        isSearchSuccessful = isMatchFound;
+
         if (!isMatchFound) {
             // Show a message when no assignments match the search criteria
             TextView noAssignmentsTextView = new TextView(ListaApartadosActivity.this);
@@ -206,6 +284,7 @@ public class ListaApartadosActivity extends AppCompatActivity {
         }
     }
 }
+
 
 
 
