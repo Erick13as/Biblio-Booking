@@ -13,12 +13,11 @@
         android:layout_marginStart="82dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="83dp"
-        android:layout_marginBottom="648dp"
         android:text="Apartados realizados"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -58,8 +57,7 @@
     <Button
         android:id="@+id/ButtonB"
         android:layout_width="319dp"
-        android:layout_height="53dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="46dp"
         android:text="Buscar"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,9 +70,8 @@
         android:layout_width="170dp"
         android:layout_height="34dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="225dp"
-        android:layout_marginBottom="170dp"
+        android:layout_marginBottom="160dp"
         android:text="Lista de Apartados:"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/ButtonE"
@@ -84,11 +81,10 @@
 
     <Button
         android:id="@+id/ButtonE"
-        android:layout_width="318dp"
-        android:layout_height="57dp"
+        android:layout_width="319dp"
+        android:layout_height="46dp"
         android:layout_marginStart="44dp"
         android:layout_marginEnd="47dp"
-        android:layout_marginBottom="10dp"
         android:text="Eliminar"
         app:layout_constraintBottom_toTopOf="@+id/ButtonC"
         app:layout_constraintEnd_toEndOf="parent"
@@ -97,9 +93,9 @@
 
     <Button
         android:id="@+id/ButtonC"
-        android:layout_width="318dp"
-        android:layout_height="57dp"
-        android:layout_marginBottom="50dp"
+        android:layout_width="319dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="60dp"
         android:text="Confirmar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,6 +103,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ButtonE"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/ButtonV"
+        android:layout_width="319dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="11dp"
+        android:text="Volver"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ButtonC" />
 
     <View
         android:id="@+id/divider"
@@ -121,5 +129,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ButtonB" />
+
+    <ScrollView
+        android:id="@+id/scrollApartados"
+        android:layout_width="375dp"
+        android:layout_height="147dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/ButtonE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
