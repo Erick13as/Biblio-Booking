@@ -8,8 +8,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
 
 public class Login extends AppCompatActivity {
 
@@ -96,5 +101,32 @@ public class Login extends AppCompatActivity {
     public void OpenMainEstudiante(){
         Intent intent = new Intent(this, MainEstudiante.class);
         startActivity(intent);
+    }
+boolean EsEstudiante=false;
+    public void checkUser(){
+        String userUsername = correoEditText.getText().toString().trim();
+        String userPassword = contraseñaEditText.getText().toString().trim();
+        Query checkUser = studentsRef.whereEqualTo("correo", correoEditText);
+        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    correoEditText.setError(null);
+                    String passwordFromDB = snapshot.child(userUsername).child("password").getValue(String.class);
+                    if (passwordFromDB.equals(userPassword)) {
+                        EsEstudiante=true;
+                    } else {
+                        contraseñaEditText.setError("Datos Invalidos");
+                        contraseñaEditText.requestFocus();
+                    }
+                } else {
+                    correoEditText.setError("El Usuario no existe");
+                    correoEditText.requestFocus();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
     }
 }
