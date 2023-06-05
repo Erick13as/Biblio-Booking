@@ -1,11 +1,16 @@
 package com.example.biblio_booking;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +26,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -147,7 +156,7 @@ public class ListaApartadosActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (isSearchPerformed && isSearchSuccessful) {
                     // Perform the "Confirmar" button functionality
-                    // ...
+                    generateQRCode();
                 } else {
                     // Show a toast message indicating that a successful search is required
                     Toast.makeText(ListaApartadosActivity.this, "Busque una asignación", Toast.LENGTH_SHORT).show();
@@ -204,56 +213,51 @@ public class ListaApartadosActivity extends AppCompatActivity {
         });
     }
 
-    private void filterAssignments(String searchText, String selectedDate) {
-        // Clear the existing views from the LinearLayout
-        linearLayout.removeAllViews();
+    private void filterAssignments(String cubiculo, String fecha) {
+        // Clear the existing assignments from the list
+        allAssignments = new ArrayList<>();
 
-        boolean isMatchFound = false;
+        // Get a reference to the Firestore database
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Iterate over the assignment documents
-        for (DocumentSnapshot document : allAssignments) {
-            // Assuming the assignment document has a "cubiculo" field, you can access it like this
-            String cubiculoAsignado = document.getString("cubiculo");
-            String fechaAsignada = document.getString("fecha");
+        // Get a reference to the "assignments" collection in Firestore
+        CollectionReference assignmentsRef = db.collection("Asignacion");
 
-            if (cubiculoAsignado.toLowerCase().contains(searchText.toLowerCase())
-                    && fechaAsignada.equals(selectedDate)) {
-                // Create a TextView to display the assignment details
-                TextView assignmentTextView = new TextView(ListaApartadosActivity.this);
-                assignmentTextView.setText("Cubiculo: " + cubiculoAsignado
-                        + "\nFecha: " + fechaAsignada
-                        + "\nHora: " + document.getString("hora")
-                        + "\nCantidad de estudiantes: " + document.getString("cantidad"));
+        // Create a query to filter the assignments by cubiculo and fecha
+        assignmentsRef.whereEqualTo("cubiculo", cubiculo)
+                .whereEqualTo("fecha", fecha)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // Retrieve the query snapshot containing the filtered assignment documents
+                            QuerySnapshot querySnapshot = task.getResult();
 
-                // Add layout parameters to the TextView
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                layoutParams.setMargins(0, 0, 0, 16); // Add margin between TextViews
-                assignmentTextView.setLayoutParams(layoutParams);
+                            // Check if any assignments match the search criteria
+                            if (!querySnapshot.isEmpty()) {
+                                // Store the filtered assignments in the list
+                                allAssignments.addAll(querySnapshot.getDocuments());
+                                isSearchSuccessful = true; // Set search successful flag
+                            } else {
+                                // Show a toast message indicating no matching assignments found
+                                Toast.makeText(ListaApartadosActivity.this, "No se encontraron asignaciones", Toast.LENGTH_SHORT).show();
+                                isSearchSuccessful = false; // Reset search successful flag
+                            }
 
-                // Add the TextView to the LinearLayout
-                linearLayout.addView(assignmentTextView);
-
-                isMatchFound = true;
-            }
-        }
-
-        // Update the search successful flag based on the match found status
-        isSearchSuccessful = isMatchFound;
-
-        if (!isMatchFound) {
-            // Show a message when no assignments match the search criteria
-            TextView noAssignmentsTextView = new TextView(ListaApartadosActivity.this);
-            noAssignmentsTextView.setText("Asignación no encontrada");
-            linearLayout.addView(noAssignmentsTextView);
-        }
+                            // Show the filtered assignments
+                            showAssignments(allAssignments);
+                        } else {
+                            // Handle the error
+                            Toast.makeText(ListaApartadosActivity.this, "Error filtering assignments", Toast.LENGTH_SHORT).show();
+                            isSearchSuccessful = false; // Reset search successful flag
+                        }
+                    }
+                });
     }
 
-
     private void showAssignments(List<DocumentSnapshot> assignments) {
-        // Clear the existing views from the LinearLayout
+        // Clear the linear layout
         linearLayout.removeAllViews();
 
         // Iterate over the assignment documents
@@ -283,7 +287,129 @@ public class ListaApartadosActivity extends AppCompatActivity {
             linearLayout.addView(assignmentTextView);
         }
     }
+
+    private void generateQRCode() {
+        // Get the cubiculo, fecha, and hora values of the searched assignment
+        String searchText = editText.getText().toString();
+        String selectedDate = editText2.getText().toString();
+
+        // Iterate over the assignment documents
+        for (DocumentSnapshot document : allAssignments) {
+            String cubiculoAsignado = document.getString("cubiculo");
+            String fechaAsignada = document.getString("fecha");
+            String horaAsignada = document.getString("hora");
+
+            if (cubiculoAsignado.toLowerCase().contains(searchText.toLowerCase())
+                    && fechaAsignada.equals(selectedDate)) {
+                // Get the document ID as the booking ID
+                String bookingId = document.getId();
+
+                // Get the carnet value from the document
+                String carnet = document.getString("carnet");
+
+                // Prepare the data string to encode in the QR code
+                String data = "ID de la Asignación: " + bookingId
+                        + "\nCarnet: " + carnet
+                        + "\nFecha: " + fechaAsignada
+                        + "\nHora: " + horaAsignada;
+
+                // Generate the QR code for the data
+                Bitmap qrCodeBitmap = generateQRCodeBitmap(data);
+
+                // Create a new ImageView and set the bitmap
+                ImageView imageView = new ImageView(this);
+                imageView.setImageBitmap(qrCodeBitmap);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        recreateActivity(); // Reload the activity
+                    }
+                });
+
+                // Set layout parameters for the ImageView
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+                layoutParams.gravity = Gravity.CENTER; // Set gravity to center
+                imageView.setLayoutParams(layoutParams);
+
+                // Create a new LinearLayout to hold the ImageView
+                LinearLayout fullscreenLayout = new LinearLayout(this);
+                fullscreenLayout.setBackgroundColor(Color.BLACK);
+                fullscreenLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                ));
+                fullscreenLayout.setGravity(Gravity.CENTER);
+                fullscreenLayout.addView(imageView);
+
+                // Set the content view to the fullscreenLayout
+                setContentView(fullscreenLayout);
+                break; // Exit the loop after generating the QR code
+            }
+        }
+    }
+
+    private void recreateActivity() {
+        // Recreate the activity to reload it
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+    private void enterFullScreen() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    private void exitFullScreen() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    }
+
+    private boolean isFullScreen() {
+        int uiVisibility = getWindow().getDecorView().getSystemUiVisibility();
+        return (uiVisibility & View.SYSTEM_UI_FLAG_FULLSCREEN) != 0;
+    }
+
+    private Bitmap generateQRCodeBitmap(String data) {
+        // Set the QR code parameters
+        int width = 800;
+        int height = 800;
+        int margin = 1;
+
+        // Create a BitMatrix object to encode the data as QR code
+        BitMatrix bitMatrix;
+        try {
+            bitMatrix = new MultiFormatWriter().encode(data, BarcodeFormat.QR_CODE, width, height, null);
+        } catch (WriterException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        // Create an array to hold the pixels of the QR code bitmap
+        int[] pixels = new int[width * height];
+
+        // Set the pixel colors based on the bitMatrix
+        for (int y = 0; y < height; y++) {
+            int offset = y * width;
+            for (int x = 0; x < width; x++) {
+                pixels[offset + x] = bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE;
+            }
+        }
+
+        // Create a bitmap from the pixel array
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+
+        return bitmap;
+    }
 }
+
 
 
 
