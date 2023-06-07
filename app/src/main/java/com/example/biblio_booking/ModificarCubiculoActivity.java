@@ -106,7 +106,8 @@ public class ModificarCubiculoActivity extends AppCompatActivity {
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateInfoCubiculo(numcubiculo.toString());
+                //verificar que ninguno este vacio al presionar guardar
+                updateInfoCubiculo(numcubiculo.getText().toString());
                 resetEmpty(true);
                 alerta.setTitle("Éxito");
                 alerta.setMessage("El cubículo " + numcubiculo.getText().toString() + "ha sido modificado");
@@ -142,7 +143,7 @@ public class ModificarCubiculoActivity extends AppCompatActivity {
         estado.setSelection(0);
     }
     private void editSpinnerSeleccionados(Spinner spinS, Spinner spinE){
-        //str.substring(0, 1).toUpperCase() + str.substring(1);
+        //no me esta editando el spinner
         String strS = infoCubiculo.get(4).toUpperCase();
         String strE = infoCubiculo.get(5).toUpperCase();
         int posFinalS = 0;
@@ -182,6 +183,7 @@ public class ModificarCubiculoActivity extends AppCompatActivity {
             });
         }
     }
+
     private void updateInfoCubiculo(String numcubiculo) {
 
     }
