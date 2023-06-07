@@ -82,7 +82,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/appelido"
+        android:id="@+id/apellidos"
         android:layout_width="334dp"
         android:layout_height="52dp"
         android:layout_marginStart="38dp"
@@ -160,7 +160,7 @@
         android:layout_marginStart="125dp"
         android:layout_marginTop="560dp"
         android:layout_marginEnd="39dp"
-        android:entries="@array/opciones2_array"
+        android:entries="@array/opciones4_array"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

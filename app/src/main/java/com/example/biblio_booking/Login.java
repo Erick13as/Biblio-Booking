@@ -55,12 +55,12 @@ public class Login extends AppCompatActivity {
                     String correo = correoEditText.getText().toString();
                     String contraseña = contraseñaEditText.getText().toString();
 
-                    if(/*tiene que ser un boleano*/) {
+                    /*if(tiene que ser un boleano) {
                         checkUser(correo, contraseña);
                     }
                     else{
                         checkAdmin(correo,contraseña);
-                    }
+                    }*/
 
                 }
             }
