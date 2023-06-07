@@ -7,11 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
 
 
 public class Login extends AppCompatActivity {
@@ -19,9 +24,10 @@ public class Login extends AppCompatActivity {
     private TextInputEditText correoEditText;
     private TextInputEditText contraseñaEditText;
     private Button IngresarButton;
+
+    private List<String> infoEstudiante;
     private FirebaseFirestore db;
-    private CollectionReference studentsRef;
-    private CollectionReference adminRef;
+    boolean EsEstudiante = false;
 
 
     @Override
@@ -34,9 +40,7 @@ public class Login extends AppCompatActivity {
         IngresarButton = findViewById(R.id.Ingresar);
 
         db = FirebaseFirestore.getInstance();
-        studentsRef = db.collection("usuario");
-        adminRef = db.collection("adminref");
-        boolean EsEstudiante = false;
+
 
 
         Button backButton = findViewById(R.id.volver);
@@ -54,21 +58,12 @@ public class Login extends AppCompatActivity {
                 } else {
                     String correo = correoEditText.getText().toString();
                     String contraseña = contraseñaEditText.getText().toString();
-
-                    /*if(tiene que ser un boleano) {
                         checkUser(correo, contraseña);
-                    }
-                    else{
-                        checkAdmin(correo,contraseña);
-                    }*/
-
                 }
             }
         });
 
     }
-
-
 
     public Boolean validateUsername() {
         String val = correoEditText.getText().toString();
@@ -96,44 +91,56 @@ public class Login extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void checkUser(String correo,String contraseña){
-        Query query = studentsRef.whereEqualTo("correo", correo);
-        Query query2 = studentsRef.whereEqualTo("contraseña", contraseña);
-        if (query.equals(correo)) {
-                    if (query2.equals(contraseña)) {
-
-                        Intent intent = new Intent(Login.this, MainEstudiante.class);
-                        startActivity(intent);
-
-                    } else {
-                        contraseñaEditText.setError("Datos Invalidos");
-                        contraseñaEditText.requestFocus();
-                    }
-                } else {
-                    correoEditText.setError("El Usuario no existe");
-                    correoEditText.requestFocus();
-                }
-
+    private void checkUser(String correo, String contraseña) {
+        Query query = db.collection("usuario");
+        if (correo != null && !correo.isEmpty()) {
+            if (contraseña != null && !contraseña.isEmpty()) {
+                query = query.whereEqualTo("correo", correo);
             }
-
-
-    public void checkAdmin(String correo,String contraseña){
-        Query query = adminRef.whereEqualTo("correo", correo);
-        Query query2 = adminRef.whereEqualTo("contraseña", contraseña);
-        if (query.equals(correo)) {
-            if (query2.equals(contraseña)) {
-                Intent intent = new Intent(Login.this, MainAdministrador.class);
-                startActivity(intent);
-
-            } else {
+            else{
                 contraseñaEditText.setError("Datos Invalidos");
                 contraseñaEditText.requestFocus();
             }
-        } else {
+        }
+        else{
             correoEditText.setError("El Usuario no existe");
             correoEditText.requestFocus();
         }
-        checkAdmin(correo,contraseña);
+
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    infoEstudiante.add(documentSnapshot.getString("carnet"));
+                    Intent intent = new Intent(Login.this, MainEstudiante.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        Query query2 = db.collection("adminref");
+        if (correo != null && !correo.isEmpty()) {
+            if (contraseña != null && !contraseña.isEmpty()) {
+                query = query.whereEqualTo("correo", correo);
+            }
+            else{
+                contraseñaEditText.setError("Datos Invalidos");
+                contraseñaEditText.requestFocus();
+            }
+        }
+        else{
+            correoEditText.setError("El Usuario no existe");
+            correoEditText.requestFocus();
+        }
+
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    Intent intent = new Intent(Login.this, MainAdministrador.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     }
