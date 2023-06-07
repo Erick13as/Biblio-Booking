@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,14 +20,21 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
-import java.util.List;
 
 public class Registro extends AppCompatActivity {
 
     private FirebaseFirestore mFirestore;
 
-    private TextView editTextFecha;
+    private TextInputEditText nombreEditText;
+    private TextInputEditText apellidoEditText;
+    private TextInputEditText apellido2EditText;
+    private TextInputEditText carnetEditText;
+    private TextView Fecha;
+    private TextInputEditText correoEditText;
+    private TextInputEditText contraseñaEditText;
+
     private DatePickerDialog.OnDateSetListener dateSetListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,10 +56,17 @@ public class Registro extends AppCompatActivity {
                 reOpenPrincipal();
             }
         });
-        editTextFecha = findViewById(R.id.editTextFecha);
 
-        // Set click listener for the date button
-        editTextFecha.setOnClickListener(new View.OnClickListener() {
+        Fecha = findViewById(R.id.Fecha);
+        nombreEditText = findViewById(R.id.nombre);
+        apellidoEditText = findViewById(R.id.Apellido);
+        apellido2EditText = findViewById(R.id.Apellido2);
+        carnetEditText = findViewById(R.id.carnet);
+        correoEditText = findViewById(R.id.correo);
+        contraseñaEditText = findViewById(R.id.contraseña);
+
+        // Set click listener for the date TextView
+        Fecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog();
@@ -66,10 +79,11 @@ public class Registro extends AppCompatActivity {
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 // Handle the selected date here
                 String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
-                editTextFecha.setText(selectedDate);
+                Fecha.setText(selectedDate);
             }
         };
     }
+
     private void showDatePickerDialog() {
         // Get the current date
         Calendar calendar = Calendar.getInstance();
@@ -88,26 +102,20 @@ public class Registro extends AppCompatActivity {
     }
 
     private void uploadDataToFirestore() {
-        TextInputEditText nombreEditText = findViewById(R.id.nombre);
-        TextInputEditText apellidoEditText = findViewById(R.id.Apellido);
-        TextInputEditText apellido2EditText = findViewById(R.id.Apellido2);
-        TextInputEditText carnetEditText = findViewById(R.id.carnet);
-        TextInputEditText fechaNacEditText = findViewById(R.id.fechaNac);
-        TextInputEditText correoEditText = findViewById(R.id.correo);
-        TextInputEditText contraseñaEditText = findViewById(R.id.contraseña);
-
         String nombre = nombreEditText.getText().toString();
         String apellido = apellidoEditText.getText().toString();
         String apellido2 = apellido2EditText.getText().toString();
         String carnet = carnetEditText.getText().toString();
-        String fechaNac = fechaNacEditText.getText().toString();
+        String fechaNac = Fecha.getText().toString();
         String correo = correoEditText.getText().toString();
         String contraseña = contraseñaEditText.getText().toString();
+        String idTipo = "Estudiante";
+        String idEstado = "Activo";
 
         // Create a new User object
-        User user = new User(nombre, apellido, apellido2, carnet, fechaNac, correo, contraseña);
+        User user = new User(nombre, apellido, apellido2, carnet, fechaNac, correo, contraseña, idTipo, idEstado);
 
-        // Get a reference to the "users" collection in Firestore
+        // Get a reference to the "usuario" collection in Firestore
         CollectionReference usersCollection = mFirestore.collection("usuario");
 
         // Upload the user data to Firestore
@@ -134,5 +142,6 @@ public class Registro extends AppCompatActivity {
         startActivity(intent);
     }
 }
+
 
 

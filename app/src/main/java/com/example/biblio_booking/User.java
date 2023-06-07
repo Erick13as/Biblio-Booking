@@ -9,11 +9,15 @@ public class User {
     private String correo;
     private String contraseña;
 
+    private String idTipo;
+
+    private String idEstado;
+
     public User() {
         // Default constructor required for Firebase
     }
 
-    public User(String nombre, String apellido, String apellido2, String carnet, String fechaNac, String correo, String contraseña) {
+    public User(String nombre, String apellido, String apellido2, String carnet, String fechaNac, String correo, String contraseña, String idTipo, String idEstado) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.apellido2 = apellido2;
@@ -21,6 +25,8 @@ public class User {
         this.fechaNac = fechaNac;
         this.correo = correo;
         this.contraseña = contraseña;
+        this.idTipo = idTipo;
+        this.idEstado = idEstado;
     }
 
     public String getNombre() {
@@ -49,6 +55,14 @@ public class User {
 
     public String getContraseña() {
         return contraseña;
+    }
+
+    public String getIdTipo() {
+        return idTipo;
+    }
+
+    public String getIdEstado() {
+        return idEstado;
     }
 }
 
