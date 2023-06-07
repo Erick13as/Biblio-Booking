@@ -16,19 +16,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
-
 
 public class Login extends AppCompatActivity {
 
     private TextInputEditText correoEditText;
     private TextInputEditText contraseñaEditText;
-    private Button IngresarButton;
+    private Button ingresarButton;
 
     private List<String> infoEstudiante;
     private FirebaseFirestore db;
-    boolean EsEstudiante = false;
-
+    boolean esEstudiante = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,35 +36,30 @@ public class Login extends AppCompatActivity {
 
         correoEditText = findViewById(R.id.correo);
         contraseñaEditText = findViewById(R.id.contraseña);
-        IngresarButton = findViewById(R.id.Ingresar);
+        ingresarButton = findViewById(R.id.Ingresar);
 
         db = FirebaseFirestore.getInstance();
 
-
-
         Button backButton = findViewById(R.id.volver);
-        backButton.setOnClickListener (new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 reOpenPrincipal();
             }
         });
 
-
-        IngresarButton.setOnClickListener(new View.OnClickListener() {
+        ingresarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!validateUsername() | !validatePassword()) {
-                } else {
+                if (validateUsername() && validatePassword()) {
                     String correo = correoEditText.getText().toString();
                     String contraseña = contraseñaEditText.getText().toString();
-                        checkUser(correo, contraseña);
+                    checkUser(correo, contraseña);
                 }
             }
         });
-
     }
 
-    public Boolean validateUsername() {
+    public boolean validateUsername() {
         String val = correoEditText.getText().toString();
         if (val.isEmpty()) {
             correoEditText.setError("Debe ingresar su correo");
@@ -76,7 +70,7 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public Boolean validatePassword(){
+    public boolean validatePassword() {
         String val = contraseñaEditText.getText().toString();
         if (val.isEmpty()) {
             contraseñaEditText.setError("Debe ingresar su contraseña");
@@ -86,7 +80,8 @@ public class Login extends AppCompatActivity {
             return true;
         }
     }
-    public void reOpenPrincipal(){
+
+    public void reOpenPrincipal() {
         Intent intent = new Intent(this, Principal.class);
         startActivity(intent);
     }
@@ -96,52 +91,34 @@ public class Login extends AppCompatActivity {
         if (correo != null && !correo.isEmpty()) {
             if (contraseña != null && !contraseña.isEmpty()) {
                 query = query.whereEqualTo("correo", correo);
-            }
-            else{
-                contraseñaEditText.setError("Datos Invalidos");
+            } else {
+                contraseñaEditText.setError("Datos Inválidos");
                 contraseñaEditText.requestFocus();
+                return;
             }
-        }
-        else{
+        } else {
             correoEditText.setError("El Usuario no existe");
             correoEditText.requestFocus();
+            return;
         }
 
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                infoEstudiante = new ArrayList<>();
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     infoEstudiante.add(documentSnapshot.getString("carnet"));
+                }
+                if (!infoEstudiante.isEmpty()) {
                     Intent intent = new Intent(Login.this, MainEstudiante.class);
                     startActivity(intent);
+                } else {
+                    correoEditText.setError("El Usuario no existe");
+                    correoEditText.requestFocus();
                 }
             }
-        });/*
-        Query query2 = db.collection("adminref");
-        if (correo != null && !correo.isEmpty()) {
-            if (contraseña != null && !contraseña.isEmpty()) {
-                query = query.whereEqualTo("correo", correo);
-            }
-            else{
-                contraseñaEditText.setError("Datos Invalidos");
-                contraseñaEditText.requestFocus();
-            }
-        }
-        else{
-            correoEditText.setError("El Usuario no existe");
-            correoEditText.requestFocus();
-        }
-
-        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Intent intent = new Intent(Login.this, MainAdministrador.class);
-                    startActivity(intent);
-                }
-            }
-        });*/
+        });
     }
+}
 
-    }
 
