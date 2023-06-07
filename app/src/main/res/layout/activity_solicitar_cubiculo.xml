@@ -6,6 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".SolicitarCubiculoActivity">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnEnviar"
+        android:layout_width="158dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginTop="652dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="31dp"
+        android:background="@drawable/round_button_background"
+        android:fontFamily="sans-serif-medium"
+        android:text="Enviar"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="131dp"
@@ -100,7 +119,7 @@
         android:layout_marginBottom="10dp"
         android:text="Cantidad de acompañantes:"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerCantidad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -131,27 +150,14 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Spinner
-        android:id="@+id/spinner"
+        android:id="@+id/spinnerCantidad"
         android:layout_width="92dp"
         android:layout_height="53dp"
         android:layout_marginStart="159dp"
         android:layout_marginEnd="160dp"
-        android:layout_marginBottom="35dp"
+        android:layout_marginBottom="40dp"
         android:entries="@array/acompañantes_array"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="117dp"
-        android:layout_marginEnd="120dp"
-        android:layout_marginBottom="35dp"
-        android:background="#CC074A"
-        android:text="Enviar Solicitud"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnEnviar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

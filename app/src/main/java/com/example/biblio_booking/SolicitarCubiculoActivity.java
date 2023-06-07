@@ -9,14 +9,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.biblio_booking.databinding.ActivitySolicitarCubiculoBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,6 +35,7 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
 
     ActivitySolicitarCubiculoBinding binding;
     private TextView editText2;
+    private Button btnEnviar;
     private FirebaseFirestore mFirestore;
     private List<String> nombresCubiculos;
     private Spinner spinnerCubiculos;
@@ -62,8 +68,50 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
             }
         };
 
-    }
+       btnEnviar = findViewById(R.id.btnEnviar);
+       btnEnviar.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                uploadDataToFirestore();
+            }
+        });
 
+    }
+    private void uploadDataToFirestore() {
+        Spinner hora=findViewById(R.id.spinnerHora);
+        Spinner cubiculo=findViewById(R.id.spinnerCubiculos);
+        Spinner CantCompa=findViewById(R.id.spinnerCantidad);
+        TextView Fecha = findViewById(R.id.editText2);
+
+        String horaSoli = hora.getSelectedItem().toString();
+        String CubiSoli = cubiculo.getSelectedItem().toString();
+        String CantSoli = CantCompa.getSelectedItem().toString();
+        String FechaSoli = Fecha.getText().toString();
+
+
+        // Create a new User object
+        Asignacion asignacion = new Asignacion(horaSoli,CubiSoli,CantSoli,FechaSoli);
+
+        // Get a reference to the "users" collection in Firestore
+        CollectionReference usersCollection = mFirestore.collection("Asignacion");
+
+        // Upload the user data to Firestore
+        usersCollection.add(asignacion)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful()) {
+                            // Data successfully uploaded to Firestore
+                            // You can perform any desired actions here
+                            // For example, display a success message
+                            Toast.makeText(SolicitarCubiculoActivity.this, "Data uploaded successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Failed to upload data to Firestore
+                            // You can handle the error here
+                            Toast.makeText(SolicitarCubiculoActivity.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
     private void showDatePickerDialog() {
         // Get the current date
         Calendar calendar = Calendar.getInstance();
