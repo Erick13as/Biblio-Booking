@@ -116,7 +116,7 @@ public class Login extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        });
+        });/*
         Query query2 = db.collection("adminref");
         if (correo != null && !correo.isEmpty()) {
             if (contraseña != null && !contraseña.isEmpty()) {
@@ -140,7 +140,7 @@ public class Login extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        });
+        });*/
     }
 
     }
