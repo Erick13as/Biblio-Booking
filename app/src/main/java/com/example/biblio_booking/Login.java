@@ -1,13 +1,12 @@
 package com.example.biblio_booking;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -19,6 +18,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Login extends AppCompatActivity {
 
     private TextInputEditText correoEditText;
@@ -27,7 +27,8 @@ public class Login extends AppCompatActivity {
 
     private List<String> infoEstudiante;
     private FirebaseFirestore db;
-    boolean esEstudiante = false;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,15 +90,16 @@ public class Login extends AppCompatActivity {
     private void checkUser(String correo, String contraseña) {
         Query query = db.collection("usuario");
         if (correo != null && !correo.isEmpty()) {
-            if (contraseña != null && !contraseña.isEmpty()) {
                 query = query.whereEqualTo("correo", correo);
+            if (contraseña != null && !contraseña.isEmpty()) {
+                query = query.whereEqualTo("contraseña", contraseña);
             } else {
                 contraseñaEditText.setError("Datos Inválidos");
                 contraseñaEditText.requestFocus();
                 return;
             }
         } else {
-            correoEditText.setError("El Usuario no existe");
+            correoEditText.setError("Contraseña o Correo Invalido");
             correoEditText.requestFocus();
             return;
         }
@@ -106,14 +108,23 @@ public class Login extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 infoEstudiante = new ArrayList<>();
+                String idTipo = "";
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     infoEstudiante.add(documentSnapshot.getString("carnet"));
+                    idTipo = documentSnapshot.getString("idTipo");
                 }
+
                 if (!infoEstudiante.isEmpty()) {
-                    Intent intent = new Intent(Login.this, MainEstudiante.class);
-                    startActivity(intent);
+                    if (idTipo.equals("Estudiante")){
+                        Intent intent = new Intent(Login.this, MainEstudiante.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        Intent intent = new Intent(Login.this, MainAdministrador.class);
+                        startActivity(intent);
+                    }
                 } else {
-                    correoEditText.setError("El Usuario no existe");
+                    correoEditText.setError("Contraseña o Correo Invalido");
                     correoEditText.requestFocus();
                 }
             }
