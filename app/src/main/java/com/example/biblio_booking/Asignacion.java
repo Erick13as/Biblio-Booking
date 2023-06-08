@@ -4,6 +4,7 @@ public class Asignacion {
     private String horaEntrada;
     private String horaSalida;
     private String cubiculo;
+    private String carnet;
     private String cantidad;
     private String fecha;
 
@@ -11,6 +12,7 @@ public class Asignacion {
         this.horaEntrada = horaEntrada;
         this.horaSalida = horaSalida;
         this.cubiculo = cubiculo;
+        this.carnet = carnet;
         this.cantidad = cantidad;
         this.fecha = fecha;
     }
@@ -44,6 +46,14 @@ public class Asignacion {
 
     public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public String getCarnet() {
+        return carnet;
+    }
+
+    public void setCarnet(String carnet) {
+        this.carnet = carnet;
     }
 
     public String getFecha() {

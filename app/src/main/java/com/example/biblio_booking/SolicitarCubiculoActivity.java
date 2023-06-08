@@ -205,5 +205,9 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
         spinnerCubiculos.setAdapter(adapter);
     }
 
+    public void OpenMainE() {
+        Intent intent = new Intent(this, MainEstudiante.class);
+        startActivity(intent);
+    }
 
 }

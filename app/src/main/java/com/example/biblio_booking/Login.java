@@ -1,27 +1,33 @@
 package com.example.biblio_booking;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Login extends AppCompatActivity {
 
     private TextInputEditText correoEditText;
     private TextInputEditText contraseñaEditText;
-    private Button IngresarButton;
+    private Button ingresarButton;
+
+    private List<String> infoEstudiante;
     private FirebaseFirestore db;
-    private CollectionReference studentsRef;
-    private CollectionReference adminRef;
+
 
 
     @Override
@@ -31,46 +37,30 @@ public class Login extends AppCompatActivity {
 
         correoEditText = findViewById(R.id.correo);
         contraseñaEditText = findViewById(R.id.contraseña);
-        IngresarButton = findViewById(R.id.Ingresar);
+        ingresarButton = findViewById(R.id.Ingresar);
 
         db = FirebaseFirestore.getInstance();
-        studentsRef = db.collection("usuario");
-        adminRef = db.collection("adminref");
-        boolean EsEstudiante = false;
-
 
         Button backButton = findViewById(R.id.volver);
-        backButton.setOnClickListener (new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 reOpenPrincipal();
             }
         });
 
-
-        IngresarButton.setOnClickListener(new View.OnClickListener() {
+        ingresarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!validateUsername() | !validatePassword()) {
-                } else {
+                if (validateUsername() && validatePassword()) {
                     String correo = correoEditText.getText().toString();
                     String contraseña = contraseñaEditText.getText().toString();
-
-                    /*if(tiene que ser un boleano) {
-                        checkUser(correo, contraseña);
-                    }
-                    else{
-                        checkAdmin(correo,contraseña);
-                    }*/
-
+                    checkUser(correo, contraseña);
                 }
             }
         });
-
     }
 
-
-
-    public Boolean validateUsername() {
+    public boolean validateUsername() {
         String val = correoEditText.getText().toString();
         if (val.isEmpty()) {
             correoEditText.setError("Debe ingresar su correo");
@@ -81,7 +71,7 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public Boolean validatePassword(){
+    public boolean validatePassword() {
         String val = contraseñaEditText.getText().toString();
         if (val.isEmpty()) {
             contraseñaEditText.setError("Debe ingresar su contraseña");
@@ -91,50 +81,68 @@ public class Login extends AppCompatActivity {
             return true;
         }
     }
-    public void reOpenPrincipal(){
+
+    public void reOpenPrincipal() {
         Intent intent = new Intent(this, Principal.class);
         startActivity(intent);
     }
 
-    public void checkUser(String correo,String contraseña){
-        Query query = studentsRef.whereEqualTo("correo", correo);
-        Query query2 = studentsRef.whereEqualTo("contraseña", contraseña);
-        if (query.equals(correo)) {
-                    if (query2.equals(contraseña)) {
-
-                        Intent intent = new Intent(Login.this, MainEstudiante.class);
-                        startActivity(intent);
-
-                    } else {
-                        contraseñaEditText.setError("Datos Invalidos");
-                        contraseñaEditText.requestFocus();
-                    }
-                } else {
-                    correoEditText.setError("El Usuario no existe");
-                    correoEditText.requestFocus();
-                }
-
-            }
-
-
-    public void checkAdmin(String correo,String contraseña){
-        Query query = adminRef.whereEqualTo("correo", correo);
-        Query query2 = adminRef.whereEqualTo("contraseña", contraseña);
-        if (query.equals(correo)) {
-            if (query2.equals(contraseña)) {
-                Intent intent = new Intent(Login.this, MainAdministrador.class);
-                startActivity(intent);
-
+    private void checkUser(String correo, String contraseña) {
+        Query query = db.collection("usuario");
+        if (correo != null && !correo.isEmpty()) {
+            query = query.whereEqualTo("correo", correo);
+            if (contraseña != null && !contraseña.isEmpty()) {
+                query = query.whereEqualTo("contraseña", contraseña);
             } else {
-                contraseñaEditText.setError("Datos Invalidos");
+                contraseñaEditText.setError("Datos Inválidos");
                 contraseñaEditText.requestFocus();
+                return;
             }
         } else {
-            correoEditText.setError("El Usuario no existe");
+            correoEditText.setError("Contraseña o Correo Invalido");
             correoEditText.requestFocus();
+            return;
         }
-        checkAdmin(correo,contraseña);
-    }
 
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                infoEstudiante = new ArrayList<>();
+                String idTipo = "";
+                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    infoEstudiante.add(documentSnapshot.getString("carnet"));
+                    idTipo = documentSnapshot.getString("idTipo");
+
+                    // Retrieve other user information
+                    String nombre = documentSnapshot.getString("nombre");
+                    String apellido = documentSnapshot.getString("apellido");
+                    String apellido2 = documentSnapshot.getString("apellido2");
+                    String carnet = documentSnapshot.getString("carnet");
+                    String fechaNac = documentSnapshot.getString("fechaNac");
+                    String correo = documentSnapshot.getString("correo");
+                    String contraseña = documentSnapshot.getString("contraseña");
+                    String idEstado = documentSnapshot.getString("idEstado");
+
+                    // Create User object with retrieved data
+                    User user = new User(nombre, apellido, apellido2, carnet, fechaNac, correo, contraseña, idTipo, idEstado);
+
+                    if (idTipo.equals("Estudiante")) {
+                        Intent intent = new Intent(Login.this, MainEstudiante.class);
+                        intent.putExtra("user", user); // Pass the user object
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(Login.this, MainAdministrador.class);
+                        startActivity(intent);
+                    }
+                }
+
+                if (infoEstudiante.isEmpty()) {
+                    correoEditText.setError("Contraseña o Correo Invalido");
+                    correoEditText.requestFocus();
+                }
+            }
+        });
     }
+}
+
 

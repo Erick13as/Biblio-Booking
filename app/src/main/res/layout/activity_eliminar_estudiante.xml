@@ -4,7 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EliminarEstudianteActivity">
+    tools:context=".EliminarEstudiante">
+
+    <ScrollView
+        android:id="@+id/scrollEstudiante"
+        android:layout_width="375dp"
+        android:layout_height="147dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/eliminarEst"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="170dp"
+                android:layout_height="34dp"
+                android:text="Coincidencia:"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <ImageView
         android:id="@+id/imagen"
@@ -23,14 +52,14 @@
         android:layout_width="336dp"
         android:layout_height="51dp"
         android:layout_marginStart="38dp"
-        android:layout_marginTop="132dp"
+        android:layout_marginTop="160dp"
         android:layout_marginEnd="37dp"
         android:text="Eliminar estudiante"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.59"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,4 +128,5 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
