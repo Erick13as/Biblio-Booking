@@ -34,6 +34,7 @@ public class ConsultarAsignaciones extends AppCompatActivity {
     private Button Verinfo;
     private TextView editText2;
     private TextInputEditText carnetCubEditText;
+    boolean siexiste = false;
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     @Override
@@ -70,7 +71,9 @@ public class ConsultarAsignaciones extends AppCompatActivity {
 
                 checkAsignacion(horaingresada,cubiculoingresado,carnetingresado,Fechaingresada);
 
-                //OpenVerAsignaciones();
+                if(siexiste){
+                    OpenVerAsignaciones();
+                }
 
             }
         });
@@ -86,7 +89,9 @@ public class ConsultarAsignaciones extends AppCompatActivity {
 
                 checkAsignacion(horaingresada,cubiculoingresado,carnetingresado,Fechaingresada);
 
-                //OpenModAsignaciones();
+                if(siexiste){
+                    OpenModAsignaciones();
+                }
             }
         });
 
@@ -177,7 +182,8 @@ public class ConsultarAsignaciones extends AppCompatActivity {
                     String cantidad = documentSnapshot.getString("cantidad");
 
                     // Create User object with retrieved data
-                    Asignacion modasignacion = new Asignacion(hora,cubiculo,carnet,cantidad, fecha);
+                    Asignacion asignacion = new Asignacion(hora,cubiculo,carnet,cantidad, fecha);
+                    siexiste= true;
 
                 }
 
