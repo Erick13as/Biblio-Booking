@@ -93,7 +93,7 @@ public class ListaApartadosActivity extends AppCompatActivity {
 
                 // Check if both editText and editText2 have values
                 if (!searchText.isEmpty() && !selectedDate.isEmpty()) {
-                    filterAssignments("Cubiculo" + searchText, selectedDate);
+                    filterAssignments("cub" + searchText, selectedDate);
                     isSearchPerformed = true; // Set search performed flag
                 } else {
                     // Show a toast message indicating that information is required

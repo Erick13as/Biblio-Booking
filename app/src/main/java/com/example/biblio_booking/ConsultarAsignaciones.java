@@ -1,9 +1,7 @@
 package com.example.biblio_booking;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +11,6 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,7 +19,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Calendar;
-
 
 public class ConsultarAsignaciones extends AppCompatActivity {
 
@@ -36,6 +31,7 @@ public class ConsultarAsignaciones extends AppCompatActivity {
     private TextInputEditText carnetCubEditText;
     boolean siexiste = false;
     private DatePickerDialog.OnDateSetListener dateSetListener;
+    private Asignacion asignacion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +41,10 @@ public class ConsultarAsignaciones extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
         Buscar = findViewById(R.id.buscar3);
         Verinfo = findViewById(R.id.Verinfo);
-        spinnerhora=findViewById(R.id.spinnerhora);
-        cubiculoCubEditText=findViewById(R.id.cubiculo);
-        carnetCubEditText=findViewById(R.id.carnet);
+        spinnerhora = findViewById(R.id.spinnerhora);
+        cubiculoCubEditText = findViewById(R.id.cubiculo);
+        carnetCubEditText = findViewById(R.id.carnet);
         editText2 = findViewById(R.id.editText2);
-
-
-
 
         Button backButton = (Button) findViewById(R.id.volver);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -60,42 +53,24 @@ public class ConsultarAsignaciones extends AppCompatActivity {
             }
         });
 
-
         Verinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String horaingresada = spinnerhora.getSelectedItem().toString();
-                String cubiculoingresado = cubiculoCubEditText.getText().toString();
-                String carnetingresado = carnetCubEditText.getText().toString();
-                String Fechaingresada = editText2.getText().toString();
-
-                checkAsignacion(horaingresada,cubiculoingresado,carnetingresado,Fechaingresada);
-
-                if(siexiste){
-                    OpenVerAsignaciones();
-                }
-
+                OpenVerAsignaciones();
             }
         });
 
         Buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String horaingresada = spinnerhora.getSelectedItem().toString();
                 String cubiculoingresado = cubiculoCubEditText.getText().toString();
                 String carnetingresado = carnetCubEditText.getText().toString();
                 String Fechaingresada = editText2.getText().toString();
 
-                checkAsignacion(horaingresada,cubiculoingresado,carnetingresado,Fechaingresada);
-
-                if(siexiste){
-                    OpenModAsignaciones();
-                }
+                checkAsignacion(horaingresada, "cub" + cubiculoingresado, carnetingresado, Fechaingresada);
             }
         });
-
-
 
         // Set click listener for the date button
         editText2.setOnClickListener(new View.OnClickListener() {
@@ -106,17 +81,16 @@ public class ConsultarAsignaciones extends AppCompatActivity {
         });
 
         // Initialize the date picker listener
-        dateSetListener = (new DatePickerDialog.OnDateSetListener() {
+        dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 // Handle the selected date here
                 String selectedDate = dayOfMonth + "/" + (month + 1) + "/" + year;
                 editText2.setText(selectedDate);
             }
-        });
-
-
+        };
     }
+
     private void showDatePickerDialog() {
         // Get the current date
         Calendar calendar = Calendar.getInstance();
@@ -141,19 +115,16 @@ public class ConsultarAsignaciones extends AppCompatActivity {
             query = query.whereEqualTo("carnet", carnetingresado);
             if (cubiculoingresado != null && !cubiculoingresado.isEmpty()) {
                 query = query.whereEqualTo("cubiculo", cubiculoingresado);
-                if (Fechaingresada != null && !Fechaingresada.isEmpty()){
+                if (Fechaingresada != null && !Fechaingresada.isEmpty()) {
                     query = query.whereEqualTo("fecha", Fechaingresada);
-                    if(horaingresada != null && !horaingresada.isEmpty()){
+                    if (horaingresada != null && !horaingresada.isEmpty()) {
                         query = query.whereEqualTo("hora", horaingresada);
-
-                    }
-                    else{
+                    } else {
                         cubiculoCubEditText.setError("La asignacion no existe");
                         cubiculoCubEditText.requestFocus();
                         return;
                     }
-                }
-                else{
+                } else {
                     cubiculoCubEditText.setError("La asignacion no existe");
                     cubiculoCubEditText.requestFocus();
                     return;
@@ -163,17 +134,16 @@ public class ConsultarAsignaciones extends AppCompatActivity {
                 cubiculoCubEditText.requestFocus();
                 return;
             }
-
         } else {
             cubiculoCubEditText.setError("La asignacion no existe");
             cubiculoCubEditText.requestFocus();
             return;
         }
+
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-
                     // Retrieve other user information
                     String cubiculo = documentSnapshot.getString("cubiculo");
                     String carnet = documentSnapshot.getString("carnet");
@@ -182,14 +152,16 @@ public class ConsultarAsignaciones extends AppCompatActivity {
                     String cantidad = documentSnapshot.getString("cantidad");
 
                     // Create User object with retrieved data
-                    Asignacion asignacion = new Asignacion(hora,cubiculo,carnet,cantidad, fecha,"Sin definir");
-                    siexiste= true;
-
+                    asignacion = new Asignacion(hora, cubiculo, carnet, cantidad, fecha, "Sin definir");
+                    siexiste = true;
                 }
 
-                cubiculoCubEditText.setError("La asignacion no existe");
-                cubiculoCubEditText.requestFocus();
-
+                if (siexiste) {
+                    OpenModAsignaciones();
+                } else {
+                    cubiculoCubEditText.setError("La asignacion no existe");
+                    cubiculoCubEditText.requestFocus();
+                }
             }
         });
     }
@@ -198,12 +170,15 @@ public class ConsultarAsignaciones extends AppCompatActivity {
         Intent intent = new Intent(this, MainAdministrador.class);
         startActivity(intent);
     }
+
     public void OpenVerAsignaciones() {
         Intent intent = new Intent(this, verAsignaciones.class);
         startActivity(intent);
     }
+
     public void OpenModAsignaciones() {
         Intent intent = new Intent(this, ModificarAsignacionesActivity.class);
+        intent.putExtra("asignacion", asignacion); // Pass the user object
         startActivity(intent);
     }
 

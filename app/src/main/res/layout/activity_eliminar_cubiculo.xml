@@ -22,15 +22,12 @@
             android:id="@+id/texto"
             android:layout_width="336dp"
             android:layout_height="51dp"
-            android:layout_marginStart="38dp"
             android:layout_marginTop="132dp"
-            android:layout_marginEnd="37dp"
             android:text="Eliminar cubículo"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -38,14 +35,11 @@
             android:id="@+id/numero"
             android:layout_width="334dp"
             android:layout_height="52dp"
-            android:layout_marginStart="38dp"
             android:layout_marginTop="212dp"
-            android:layout_marginEnd="39dp"
             android:backgroundTint="#132BFF"
             android:hint="Número de cubículo"
             android:inputType="text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,25 +55,21 @@
             android:textColor="#FFFFFF"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.913"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/eliminarCub"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/eliminarCub"
             android:layout_width="158dp"
             android:layout_height="48dp"
-            android:layout_marginStart="45dp"
             android:layout_marginTop="624dp"
-            android:layout_marginEnd="208dp"
             android:background="@drawable/round_button_background"
             android:fontFamily="sans-serif-medium"
             android:text="Eliminar"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.937"
+            app:layout_constraintEnd_toStartOf="@+id/volver"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,17 +89,15 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <ScrollView
             android:id="@+id/scrollCub"
             android:layout_width="375dp"
             android:layout_height="147dp"
-            android:layout_marginStart="30dp"
             android:layout_marginTop="1dp"
-            android:layout_marginEnd="30dp"
             android:layout_marginBottom="1dp"
             app:layout_constraintBottom_toTopOf="@+id/eliminarCub"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.437"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView">
 
@@ -117,7 +105,7 @@
                     android:id="@+id/linearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/textView"

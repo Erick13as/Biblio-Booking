@@ -131,10 +131,11 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<DocumentReference> task) {
                                         if (task.isSuccessful()) {
-                                            Toast.makeText(SolicitarCubiculoActivity.this, "Data uploaded successfully", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SolicitarCubiculoActivity.this, "Solicitud realizada exitosamente", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            Toast.makeText(SolicitarCubiculoActivity.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(SolicitarCubiculoActivity.this, "Solicitud fallida", Toast.LENGTH_SHORT).show();
                                         }
+                                        OpenMainE();
                                         return;
                                     }
                                 });

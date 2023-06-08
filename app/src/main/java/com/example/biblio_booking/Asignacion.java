@@ -1,6 +1,7 @@
 package com.example.biblio_booking;
+import java.io.Serializable;
 
-public class Asignacion {
+public class Asignacion implements Serializable {
     private String horaEntrada;
     private String horaSalida;
     private String cubiculo;

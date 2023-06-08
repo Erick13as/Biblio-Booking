@@ -135,16 +135,13 @@ public class Registro extends AppCompatActivity {
                         }
                     }
                 });
-        OpenMainE();
+        Intent intent = new Intent(this, MainEstudiante.class);
+        intent.putExtra("user", user); // Pass the user object
+        startActivity(intent);
     }
 
     public void reOpenPrincipal() {
         Intent intent = new Intent(this, Principal.class);
-        startActivity(intent);
-    }
-
-    public void OpenMainE() {
-        Intent intent = new Intent(this, MainEstudiante.class);
         startActivity(intent);
     }
 }

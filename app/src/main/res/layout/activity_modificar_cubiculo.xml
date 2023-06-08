@@ -10,7 +10,6 @@
         android:id="@+id/buscar2"
         android:layout_width="159dp"
         android:layout_height="51dp"
-        android:layout_marginStart="45dp"
         android:layout_marginTop="656dp"
         android:background="@drawable/round_button_background"
         android:backgroundTint="#0C25A6"
@@ -19,6 +18,7 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/guardar2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +26,6 @@
         android:id="@+id/guardar2"
         android:layout_width="158dp"
         android:layout_height="51dp"
-        android:layout_marginStart="212dp"
         android:layout_marginTop="656dp"
         android:background="@drawable/round_button_background"
         android:backgroundTint="#0C25A6"
@@ -35,14 +34,15 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buscar2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="99dp"
         android:layout_height="78dp"
-        android:layout_marginStart="156dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo2" />
@@ -51,22 +51,22 @@
         android:id="@+id/spinnerservicios"
         android:layout_width="227dp"
         android:layout_height="64dp"
-        android:layout_marginStart="146dp"
         android:layout_marginTop="488dp"
         android:entries="@array/opciones_array"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/serviciostexto"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/serviciostexto"
         android:layout_width="104dp"
         android:layout_height="58dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="494dp"
         android:text="Servicios especiales:"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerservicios"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,11 +74,12 @@
         android:id="@+id/estadotexto2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="54dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="582dp"
         android:text="Estado:"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/estado2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -86,24 +87,22 @@
         android:id="@+id/estado2"
         android:layout_width="228dp"
         android:layout_height="63dp"
-        android:layout_marginStart="146dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="565dp"
         android:entries="@array/opciones2_array"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/estadotexto2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/rangomax"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="424dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Rango máximo de uso (min)"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -111,14 +110,11 @@
         android:id="@+id/capacidad"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="352dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Capacidad"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,13 +122,10 @@
         android:id="@+id/ubicacion"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="284dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Ubicación"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -140,13 +133,10 @@
         android:id="@+id/nombre2"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="212dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Nombre"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -154,9 +144,7 @@
         android:id="@+id/cubiculo"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="141dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint=" Número cubículo"
         android:inputType="number"
@@ -168,9 +156,7 @@
         android:id="@+id/modifcartexto2"
         android:layout_width="336dp"
         android:layout_height="51dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="76dp"
-        android:layout_marginEnd="37dp"
         android:text="Modificar Cubículo"
         android:textAlignment="center"
         android:textColor="#000000"

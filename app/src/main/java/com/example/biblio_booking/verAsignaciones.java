@@ -53,7 +53,7 @@ public class verAsignaciones extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                String cubiculo = "Cubiculo"+s.toString();
+                String cubiculo = "cub"+s.toString();
                 updateAssignmentsList(cubiculo);
             }
         });
@@ -74,6 +74,7 @@ public class verAsignaciones extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    String carnetEstudiante = documentSnapshot.getString("carnet");
                     String cubiculoAsignado = documentSnapshot.getString("cubiculo");
                     String fechaAsignada = documentSnapshot.getString("fecha");
                     String horaAsignada = documentSnapshot.getString("hora");
@@ -81,7 +82,8 @@ public class verAsignaciones extends AppCompatActivity {
 
                     // Create a TextView for each assignment and add it to the LinearLayout
                     TextView textViewAssignment = new TextView(verAsignaciones.this);
-                    textViewAssignment.setText("Cubiculo: " + cubiculoAsignado
+                    textViewAssignment.setText("Carnet: " + carnetEstudiante
+                            + "Cubiculo: " + cubiculoAsignado
                             + "\nFecha: " + fechaAsignada
                             + "\nHora: " + horaAsignada
                             + "\nCantidad de estudiantes: " + cantidadAsignada + "\n");

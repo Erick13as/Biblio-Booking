@@ -10,7 +10,6 @@
         android:id="@+id/guardar"
         android:layout_width="158dp"
         android:layout_height="51dp"
-        android:layout_marginStart="212dp"
         android:layout_marginTop="656dp"
         android:background="@drawable/round_button_background"
         android:backgroundTint="#0C25A6"
@@ -19,14 +18,14 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buscar4"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buscar4"
         android:layout_width="159dp"
         android:layout_height="51dp"
-        android:layout_marginStart="45dp"
         android:layout_marginTop="656dp"
         android:background="@drawable/round_button_background"
         android:backgroundTint="#0C25A6"
@@ -35,6 +34,7 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@+id/guardar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,13 +42,12 @@
         android:id="@+id/estadotexto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
+        android:layout_marginStart="25dp"
         android:layout_marginTop="573dp"
-        android:layout_marginEnd="305dp"
         android:text="Estado:"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/estado"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,9 +55,7 @@
         android:id="@+id/texto"
         android:layout_width="336dp"
         android:layout_height="51dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="76dp"
-        android:layout_marginEnd="37dp"
         android:text="Modificar Estudiante"
         android:textAlignment="center"
         android:textColor="#000000"
@@ -71,9 +68,7 @@
         android:id="@+id/carnet"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="141dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Carnet"
         android:inputType="number"
@@ -85,13 +80,10 @@
         android:id="@+id/apellidos"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="284dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Apellidos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,13 +91,10 @@
         android:id="@+id/nombre3"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="212dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Nombre"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -113,13 +102,10 @@
         android:id="@+id/correo"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="424dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Correo electrónico"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -127,14 +113,11 @@
         android:id="@+id/contrasena"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="492dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Contraseña"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -142,14 +125,11 @@
         android:id="@+id/fechaNac"
         android:layout_width="334dp"
         android:layout_height="52dp"
-        android:layout_marginStart="38dp"
         android:layout_marginTop="352dp"
-        android:layout_marginEnd="39dp"
         android:backgroundTint="#132BFF"
         android:hint="Fecha Nacimiento"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -157,20 +137,18 @@
         android:id="@+id/estado"
         android:layout_width="248dp"
         android:layout_height="60dp"
-        android:layout_marginStart="125dp"
         android:layout_marginTop="560dp"
-        android:layout_marginEnd="39dp"
+        android:layout_marginEnd="25dp"
         android:entries="@array/opciones4_array"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/estadotexto"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="99dp"
         android:layout_height="78dp"
-        android:layout_marginStart="156dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo2" />
