@@ -37,6 +37,7 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
     private Spinner estado;
     private List<String> infoEstudiante;
     private DatePickerDialog.OnDateSetListener dateSetListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +79,12 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validTextInput(carnet)){
+                if (validTextInput(carnet)) {
                     getInfoEstudiante(carnet.getText().toString());
                     Handler handler = new Handler();
                     Runnable r = new Runnable() {
                         public void run() {
-                            if(infoEstudiante.isEmpty()){
+                            if (infoEstudiante.isEmpty()) {
                                 //no encuentra estudiante
                                 alerta.setTitle("Error");
                                 alerta.setMessage("No se encontró ningún estudiante");
@@ -95,8 +96,7 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
                                 });
                                 alerta.show();
                                 resetEmpty(true);
-                            }
-                            else{
+                            } else {
                                 //encuentra estudiante y edita campos en la pantalla
                                 nombre.setText(infoEstudiante.get(0));
                                 apellido.setText(infoEstudiante.get(1));
@@ -117,7 +117,7 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(validTextInput(carnet) && validTextInput(nombre) && validTextInput(apellido) && validTextInput(fechaNacimiento) && validTextInput(correo) && validTextInput(contrasena)){
+                if (validTextInput(carnet) && validTextInput(nombre) && validTextInput(apellido) && validTextInput(fechaNacimiento) && validTextInput(correo) && validTextInput(contrasena)) {
                     updateInfoEstudiante(carnet.getText().toString(), alerta);
                 }
             }
@@ -152,6 +152,7 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
             return true;
         }
     }
+
     private void resetEmpty(boolean e){
         if(e){ carnet.setText(""); }
         nombre.setText("");
@@ -164,10 +165,9 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
 
     private void editSpinnerSeleccionados(Spinner spinE) {
         String selectedItem = infoEstudiante.get(5).toUpperCase();
-        String itemAtPosition1 = spinE.getItemAtPosition(1).toString().toUpperCase();
         int posFinalE = 0;
 
-        if (selectedItem.equalsIgnoreCase(itemAtPosition1)) {
+        if (selectedItem.equalsIgnoreCase(spinE.getItemAtPosition(1).toString())) {
             posFinalE = 1;
         }
 
@@ -190,7 +190,6 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
                         infoEstudiante.add(documentSnapshot.getString("contraseña"));
                         infoEstudiante.add(documentSnapshot.getString("idEstado"));
                     }
-                    System.out.println(infoEstudiante);
                 }
             });
         }
@@ -230,7 +229,7 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
             else{
                 alerta.setTitle("Error");
                 alerta.setMessage("Hubo un problema al modificar, intente de nuevo");
-                alerta.setNegativeButton("OKK", new DialogInterface.OnClickListener() {
+                alerta.setNegativeButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.cancel();
