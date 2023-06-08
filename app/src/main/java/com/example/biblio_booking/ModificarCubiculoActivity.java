@@ -19,6 +19,8 @@ import com.google.firebase.FirebaseError;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -106,18 +108,9 @@ public class ModificarCubiculoActivity extends AppCompatActivity {
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //verificar que ninguno este vacio al presionar guardar
-                updateInfoCubiculo(numcubiculo.getText().toString());
-                resetEmpty(true);
-                alerta.setTitle("Éxito");
-                alerta.setMessage("El cubículo " + numcubiculo.getText().toString() + "ha sido modificado");
-                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                alerta.show();
+                if(validTextInput(numcubiculo) && validTextInput(nombre) && validTextInput(ubicacion) && validTextInput(capacidad) && validTextInput(rangomax)) {
+                    updateInfoCubiculo(numcubiculo.getText().toString(), alerta);
+                }
             }
         });
     }
@@ -143,20 +136,20 @@ public class ModificarCubiculoActivity extends AppCompatActivity {
         estado.setSelection(0);
     }
     private void editSpinnerSeleccionados(Spinner spinS, Spinner spinE){
-        //no me esta editando el spinner
         String strS = infoCubiculo.get(4).toUpperCase();
         String strE = infoCubiculo.get(5).toUpperCase();
+
         int posFinalS = 0;
         int posFinalE = 0;
 
-        if(strS == spinS.getItemAtPosition(1)){
+        if(strS.equalsIgnoreCase(spinS.getItemAtPosition(1).toString())){
             posFinalS = 1;
         }
 
-        if(strE == spinE.getItemAtPosition(1)){
+        if(strE.equalsIgnoreCase(spinE.getItemAtPosition(1).toString())){
             posFinalE = 1;
         }
-        else if (strE == spinE.getItemAtPosition(2)){
+        else if (strE.equalsIgnoreCase(spinE.getItemAtPosition(2).toString())){
             posFinalE = 2;
         }
 
@@ -183,8 +176,46 @@ public class ModificarCubiculoActivity extends AppCompatActivity {
             });
         }
     }
+    private void updateInfoCubiculo(String numcubiculo, AlertDialog.Builder alerta) {
+        CollectionReference collectionRef = db.collection("Cubiculo");
 
-    private void updateInfoCubiculo(String numcubiculo) {
+        collectionRef.whereEqualTo("idCubiculo", "cub" + numcubiculo).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
+                    DocumentReference docRef = documentSnapshot.getReference();
 
+                    docRef.update("nombre", nombre.getText().toString());
+                    docRef.update("ubicacion", ubicacion.getText().toString());
+                    docRef.update("capacidad", capacidad.getText().toString());
+                    docRef.update("tiempoMaxUso", rangomax.getText().toString());
+                    docRef.update("idEstadoC", estado.getSelectedItem().toString().substring(0, 1).toUpperCase() + estado.getSelectedItem().toString().substring(1).toLowerCase());
+                    docRef.update("servicioE", servicios.getSelectedItem().toString().substring(0, 1).toUpperCase() + servicios.getSelectedItem().toString().substring(1).toLowerCase());
+                }
+
+                alerta.setTitle("Éxito");
+                alerta.setMessage("Cubículo " + numcubiculo + " ha sido modificado");
+                alerta.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                alerta.show();
+                resetEmpty(true);
+            }
+            else{
+                alerta.setTitle("Error");
+                alerta.setMessage("Hubo un problema al modificar, intente de nuevo");
+                alerta.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                alerta.show();
+                resetEmpty(false);
+            }
+        });
     }
 }
