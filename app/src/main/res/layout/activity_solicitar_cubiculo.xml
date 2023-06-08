@@ -92,10 +92,10 @@
         android:layout_marginStart="162dp"
         android:layout_marginEnd="160dp"
         android:layout_marginBottom="13dp"
-        android:entries="@array/cubiculos_array"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:entries="@array/NoDisponible_array"/>
 
     <TextView
         android:id="@+id/textView"

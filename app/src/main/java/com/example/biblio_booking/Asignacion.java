@@ -1,24 +1,33 @@
 package com.example.biblio_booking;
 
 public class Asignacion {
-    private String hora;
+    private String horaEntrada;
+    private String horaSalida;
     private String cubiculo;
     private String cantidad;
     private String fecha;
 
-    public Asignacion(String hora, String cubiculo, String cantidad, String fecha) {
-        this.hora = hora;
+    public Asignacion(String horaEntrada, String cubiculo, String cantidad, String fecha,String horaSalida) {
+        this.horaEntrada = horaEntrada;
+        this.horaSalida = horaSalida;
         this.cubiculo = cubiculo;
         this.cantidad = cantidad;
         this.fecha = fecha;
     }
 
     public String getHora() {
-        return hora;
+        return horaEntrada;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setHora(String horaEntrada) {
+        this.horaEntrada = horaEntrada;
+    }
+    public String getHoraSali() {
+        return horaSalida;
+    }
+
+    public void setHoraSali(String horaSalida) {
+        this.horaSalida = horaSalida;
     }
 
     public String getCubiculo() {

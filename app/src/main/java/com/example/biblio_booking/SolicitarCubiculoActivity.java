@@ -22,13 +22,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 public class SolicitarCubiculoActivity extends AppCompatActivity {
@@ -71,47 +76,85 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
        btnEnviar = findViewById(R.id.btnEnviar);
        btnEnviar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                uploadDataToFirestore();
+                //uploadDataToFirestore();
+                validarAsignacion();
             }
         });
 
     }
-    private void uploadDataToFirestore() {
+
+    public void validarAsignacion() {
+
         Spinner hora=findViewById(R.id.spinnerHora);
         Spinner cubiculo=findViewById(R.id.spinnerCubiculos);
         Spinner CantCompa=findViewById(R.id.spinnerCantidad);
-        TextView Fecha = findViewById(R.id.editText2);
+        TextView fecha = findViewById(R.id.editText2);
 
         String horaSoli = hora.getSelectedItem().toString();
+        String horaSalida="Sin definir";
         String CubiSoli = cubiculo.getSelectedItem().toString();
         String CantSoli = CantCompa.getSelectedItem().toString();
-        String FechaSoli = Fecha.getText().toString();
+        String FechaSoli = fecha.getText().toString();
 
+        if (CubiSoli.equals("Sin disponibilidad")) {
+            Toast.makeText(SolicitarCubiculoActivity.this, "Sin cubículos disponibles", Toast.LENGTH_SHORT).show();
+        } else if (FechaSoli.equals("")){
+            Toast.makeText(SolicitarCubiculoActivity.this, "Seleccione una fecha", Toast.LENGTH_SHORT).show();
+        } else {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference asignacionesRef = db.collection("Asignacion");
 
-        // Create a new User object
-        Asignacion asignacion = new Asignacion(horaSoli,CubiSoli,CantSoli,FechaSoli);
+            asignacionesRef.whereEqualTo("cubiculo", CubiSoli)
+                    .whereEqualTo("fecha", FechaSoli)
+                    .get()
+                    .addOnSuccessListener(querySnapshot -> {
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            String horaEntradaExistente = document.getString("hora");
 
-        // Get a reference to the "users" collection in Firestore
-        CollectionReference usersCollection = mFirestore.collection("Asignacion");
+                            // Validar si hay una superposición de horarios
+                            if (tiempoChoca(horaSoli, horaEntradaExistente)) {
+                                // Hay una superposición de asignaciones
+                                Toast.makeText(SolicitarCubiculoActivity.this, "El cubiculo seleccionado se encuentra ocupado en la hora y fecha indicada", Toast.LENGTH_SHORT).show();
 
-        // Upload the user data to Firestore
-        usersCollection.add(asignacion)
-                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        if (task.isSuccessful()) {
-                            // Data successfully uploaded to Firestore
-                            // You can perform any desired actions here
-                            // For example, display a success message
-                            Toast.makeText(SolicitarCubiculoActivity.this, "Data uploaded successfully", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Failed to upload data to Firestore
-                            // You can handle the error here
-                            Toast.makeText(SolicitarCubiculoActivity.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
-                    }
-                });
+                        // No hay choque de asignaciones
+                        CollectionReference usersCollection = mFirestore.collection("Asignacion");
+                        Asignacion asignacion = new Asignacion(horaSoli, CubiSoli, CantSoli, FechaSoli, horaSalida);
+                        usersCollection.add(asignacion)
+                                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(SolicitarCubiculoActivity.this, "Data uploaded successfully", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(SolicitarCubiculoActivity.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
+                                        }
+                                        return;
+                                    }
+                                });
+
+
+                    });
+
+        }
     }
+
+    // Función para verificar si dos intervalos de tiempo se superponen
+    public boolean tiempoChoca(String horaEntrada1, String horaEntrada2) {
+        // Convierte las horas a un formato adecuado para comparar, por ejemplo, "HH:mm"
+        // Implementa la lógica de comparación adecuada según tus necesidades
+        // Aquí tienes un ejemplo básico de comparación de cadenas de tiempo
+        if (horaEntrada1.compareTo(horaEntrada2) > 0) {
+            // Hay una superposición de tiempo
+            return true;
+        }
+
+        // No hay superposición de tiempo
+        return false;
+    }
+
     private void showDatePickerDialog() {
         // Get the current date
         Calendar calendar = Calendar.getInstance();
@@ -137,12 +180,22 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String nombreCubiculo = document.getString("nombre");
-                                nombresCubiculos.add(nombreCubiculo);
+                                String idEstadoCubiculo = document.getString("idEstadoC");
+                                if (idEstadoCubiculo.equals("Libre")) {
+                                    nombresCubiculos.add(nombreCubiculo);
+                                }
                             }
-                            configurarSpinner();
+                            if (nombresCubiculos.isEmpty()){
+                                return;
+                            }
+                            else{
+                                configurarSpinner();
+                            }
+
                         } else {
                             Log.e("Firestore", "Error al obtener los datos", task.getException());
                         }
+                        return;
                     }
                 });
     }
@@ -151,5 +204,6 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCubiculos.setAdapter(adapter);
     }
+
 
 }

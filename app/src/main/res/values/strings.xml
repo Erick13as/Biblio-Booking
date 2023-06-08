@@ -6,9 +6,9 @@
     </string-array>
 
     <string-array name="opciones2_array">
-        <item>LIBRE</item>
-        <item>OCUPADO</item>
-        <item>MANTENIMIENTO</item>
+        <item>Libre</item>
+        <item>Ocupado</item>
+        <item>Mantenimiento</item>
     </string-array>
 
     <string-array name="opciones4_array">
@@ -16,11 +16,10 @@
         <item>SUSPENDIDO</item>
     </string-array>
 
-    <string-array name="cubiculos_array">
-        <item>01</item>
-        <item>02</item>
-        <item>03</item>
+    <string-array name="NoDisponible_array">
+        <item>Sin disponibilidad</item>
     </string-array>
+
 
     <string-array name="acompañantes_array">
         <item>1</item>
