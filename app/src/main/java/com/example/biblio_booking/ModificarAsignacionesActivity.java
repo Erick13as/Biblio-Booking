@@ -8,7 +8,7 @@ import android.os.Bundle;
 public class ModificarAsignacionesActivity extends AppCompatActivity {
 
     //private Asignacion asignacion;
-    Asignacion asignacion = new Asignacion( "7:30", "Cubiculo1", "2020091055", "5", "19/6/2023");
+    Asignacion asignacion = new Asignacion( "7:30", "cub1", "2020091055", "5", "19/6/2023");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

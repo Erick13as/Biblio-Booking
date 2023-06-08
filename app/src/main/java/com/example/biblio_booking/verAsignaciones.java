@@ -1,9 +1,12 @@
 package com.example.biblio_booking;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +34,12 @@ public class verAsignaciones extends AppCompatActivity {
         layoutAsignaciones = findViewById(R.id.layoutAsignaciones);
         editTextCubiculo = findViewById(R.id.editTextCubiculo);
 
+        Button backButton = (Button) findViewById(R.id.buttonVolver);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                reOpenConsultarAsigancaiones();
+            }
+        });
         editTextCubiculo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -80,6 +89,10 @@ public class verAsignaciones extends AppCompatActivity {
                 }
             }
         });
+    }
+    public void reOpenConsultarAsigancaiones() {
+        Intent intent = new Intent(this, ConsultarAsignaciones.class);
+        startActivity(intent);
     }
 }
 

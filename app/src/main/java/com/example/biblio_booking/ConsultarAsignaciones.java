@@ -29,7 +29,7 @@ public class ConsultarAsignaciones extends AppCompatActivity {
 
     private FirebaseFirestore mFirestore;
     private Spinner spinnerhora;
-    private Spinner spinnerCubiculos;
+    private TextInputEditText cubiculoCubEditText;
     private Button Buscar;
     private Button Verinfo;
     private TextView editText2;
@@ -45,9 +45,11 @@ public class ConsultarAsignaciones extends AppCompatActivity {
         Buscar = findViewById(R.id.buscar3);
         Verinfo = findViewById(R.id.Verinfo);
         spinnerhora=findViewById(R.id.spinnerhora);
-        spinnerCubiculos=findViewById(R.id.spinnerCubiculos);
+        cubiculoCubEditText=findViewById(R.id.cubiculo);
         carnetCubEditText=findViewById(R.id.carnet);
         editText2 = findViewById(R.id.editText2);
+
+
 
 
         Button backButton = (Button) findViewById(R.id.volver);
@@ -57,32 +59,38 @@ public class ConsultarAsignaciones extends AppCompatActivity {
             }
         });
 
+
+        Verinfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String horaingresada = spinnerhora.getSelectedItem().toString();
+                String cubiculoingresado = cubiculoCubEditText.getText().toString();
+                String carnetingresado = carnetCubEditText.getText().toString();
+                String Fechaingresada = editText2.getText().toString();
+
+                checkAsignacion(horaingresada,cubiculoingresado,carnetingresado,Fechaingresada);
+
+                //OpenVerAsignaciones();
+
+            }
+        });
+
         Buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 String horaingresada = spinnerhora.getSelectedItem().toString();
-                String cubiculoingresado = spinnerCubiculos.getSelectedItem().toString();
+                String cubiculoingresado = cubiculoCubEditText.getText().toString();
                 String carnetingresado = carnetCubEditText.getText().toString();
                 String Fechaingresada = editText2.getText().toString();
 
                 checkAsignacion(horaingresada,cubiculoingresado,carnetingresado,Fechaingresada);
-                OpenModAsignaciones();
+
+                //OpenModAsignaciones();
             }
         });
-        Verinfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                String horaingresada = spinnerhora.getSelectedItem().toString();
-                String cubiculoingresado = spinnerCubiculos.getSelectedItem().toString();
-                String carnetingresado = carnetCubEditText.getText().toString();
-                String Fechaingresada = editText2.getText().toString();
 
-                checkAsignacion(horaingresada,cubiculoingresado,carnetingresado,Fechaingresada);
-                OpenVerAsignaciones();
-            }
-        });
 
         // Set click listener for the date button
         editText2.setOnClickListener(new View.OnClickListener() {
@@ -135,23 +143,25 @@ public class ConsultarAsignaciones extends AppCompatActivity {
 
                     }
                     else{
-                        carnetCubEditText.setError("La asignacion no existe");
-                        carnetCubEditText.requestFocus();
+                        cubiculoCubEditText.setError("La asignacion no existe");
+                        cubiculoCubEditText.requestFocus();
+                        return;
                     }
                 }
                 else{
-                    carnetCubEditText.setError("La asignacion no existe");
-                    carnetCubEditText.requestFocus();
+                    cubiculoCubEditText.setError("La asignacion no existe");
+                    cubiculoCubEditText.requestFocus();
+                    return;
                 }
             } else {
-                carnetCubEditText.setError("La asignacion no existe");
-                carnetCubEditText.requestFocus();
+                cubiculoCubEditText.setError("La asignacion no existe");
+                cubiculoCubEditText.requestFocus();
                 return;
             }
 
         } else {
-            carnetCubEditText.setError("La asignacion no existe");
-            carnetCubEditText.requestFocus();
+            cubiculoCubEditText.setError("La asignacion no existe");
+            cubiculoCubEditText.requestFocus();
             return;
         }
         query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -167,12 +177,12 @@ public class ConsultarAsignaciones extends AppCompatActivity {
                     String cantidad = documentSnapshot.getString("cantidad");
 
                     // Create User object with retrieved data
-                    Asignacion asignacion = new Asignacion(hora,cubiculo,carnet,cantidad, fecha);
+                    Asignacion modasignacion = new Asignacion(hora,cubiculo,carnet,cantidad, fecha);
 
                 }
 
-                carnetCubEditText.setError("La asignacion no existe");
-                carnetCubEditText.requestFocus();
+                cubiculoCubEditText.setError("La asignacion no existe");
+                cubiculoCubEditText.requestFocus();
 
             }
         });
