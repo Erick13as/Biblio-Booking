@@ -20,12 +20,12 @@ public class Cubiculos extends AppCompatActivity {
             }
         });
 
-       /* Button button2 = (Button) findViewById(R.id.eliminar);
+        Button button2 = (Button) findViewById(R.id.eliminar);
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 OpenEliminarCubiculo();
             }
-        });*/
+        });
 
         Button button3 = (Button) findViewById(R.id.modificar);
         button3.setOnClickListener(new View.OnClickListener() {
@@ -47,10 +47,10 @@ public class Cubiculos extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /*public void OpenEliminarCubiculo() {
-        Intent intent = new Intent(this, EliminarCubiculoActivity.class);
+    public void OpenEliminarCubiculo() {
+        Intent intent = new Intent(this, EliminarCubiculo.class);
         startActivity(intent);
-    }*/
+    }
     public void OpenModificarCubiculo() {
         Intent intent = new Intent(this, ModificarCubiculoActivity.class);
         startActivity(intent);
