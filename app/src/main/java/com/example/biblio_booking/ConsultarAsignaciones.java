@@ -3,6 +3,7 @@ package com.example.biblio_booking;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class ConsultarAsignaciones extends AppCompatActivity {
         spinnerCubiculos=findViewById(R.id.spinnerCubiculos);
         carnetCubEditText=findViewById(R.id.carnet);
         editText2 = findViewById(R.id.editText2);
+
 
         Button backButton = (Button) findViewById(R.id.volver);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -162,10 +164,11 @@ public class ConsultarAsignaciones extends AppCompatActivity {
                     String carnet = documentSnapshot.getString("carnet");
                     String fecha = documentSnapshot.getString("fecha");
                     String hora = documentSnapshot.getString("hora");
-                    //String cantidad = documentSnapshot.getString("cantidad");
+                    String cantidad = documentSnapshot.getString("cantidad");
 
                     // Create User object with retrieved data
-                    Asignacion asignacion = new Asignacion(cubiculo,carnet,fecha,hora/*,cantidad*/);
+                    Asignacion asignacion = new Asignacion(hora,cubiculo,carnet,cantidad, fecha);
+
                 }
 
                 carnetCubEditText.setError("La asignacion no existe");

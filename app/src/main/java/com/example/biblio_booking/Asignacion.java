@@ -3,12 +3,14 @@ package com.example.biblio_booking;
 public class Asignacion {
     private String hora;
     private String cubiculo;
+    private String carnet;
     private String cantidad;
     private String fecha;
 
-    public Asignacion(String hora, String cubiculo, String cantidad, String fecha) {
+    public Asignacion(String hora, String cubiculo, String carnet, String cantidad, String fecha) {
         this.hora = hora;
         this.cubiculo = cubiculo;
+        this.carnet = carnet;
         this.cantidad = cantidad;
         this.fecha = fecha;
     }
@@ -35,6 +37,14 @@ public class Asignacion {
 
     public void setCantidad(String cantidad) {
         this.cantidad = cantidad;
+    }
+
+    public String getCarnet() {
+        return carnet;
+    }
+
+    public void setCarnet(String carnet) {
+        this.carnet = carnet;
     }
 
     public String getFecha() {
