@@ -182,7 +182,7 @@ public class ConsultarAsignaciones extends AppCompatActivity {
                     String cantidad = documentSnapshot.getString("cantidad");
 
                     // Create User object with retrieved data
-                    Asignacion asignacion = new Asignacion(hora,cubiculo,carnet,cantidad, fecha);
+                    Asignacion asignacion = new Asignacion(hora,cubiculo,carnet,cantidad, fecha,"Sin definir");
                     siexiste= true;
 
                 }

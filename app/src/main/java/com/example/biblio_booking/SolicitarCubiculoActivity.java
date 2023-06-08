@@ -45,6 +45,7 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
     private List<String> nombresCubiculos;
     private Spinner spinnerCubiculos;
     private DatePickerDialog.OnDateSetListener dateSetListener;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +56,9 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
         nombresCubiculos = new ArrayList<>();
         spinnerCubiculos = findViewById(R.id.spinnerCubiculos);
         obtenerNombresCubiculos();
+
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
         // Set click listener for the date button
         editText2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +125,7 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
                         }
                         // No hay choque de asignaciones
                         CollectionReference usersCollection = mFirestore.collection("Asignacion");
-                        Asignacion asignacion = new Asignacion(horaSoli, CubiSoli, CantSoli, FechaSoli, horaSalida);
+                        Asignacion asignacion = new Asignacion(horaSoli, CubiSoli,user.getCarnet(), CantSoli, FechaSoli, horaSalida);
                         usersCollection.add(asignacion)
                                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                     @Override
@@ -179,7 +183,7 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                String nombreCubiculo = document.getString("nombre");
+                                String nombreCubiculo = document.getString("idCubiculo");
                                 String idEstadoCubiculo = document.getString("idEstadoC");
                                 if (idEstadoCubiculo.equals("Libre")) {
                                     nombresCubiculos.add(nombreCubiculo);

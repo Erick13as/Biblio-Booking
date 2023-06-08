@@ -84,9 +84,9 @@ public class AgregarCubiculoActivity extends AppCompatActivity {
                                 }
 
                                 if (nombreCubExistente) {
-                                    Toast.makeText(AgregarCubiculoActivity.this, "Ya existe un cubículo con el mismo nombre1", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AgregarCubiculoActivity.this, "Ya existe un cubículo con el mismo nombre", Toast.LENGTH_SHORT).show();
                                 } else if (numeroCubExistente) {
-                                    Toast.makeText(AgregarCubiculoActivity.this, "Ya existe un cubículo con el mismo número2", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(AgregarCubiculoActivity.this, "Ya existe un cubículo con el mismo número", Toast.LENGTH_SHORT).show();
                                 } else {
                                     cubiculoRef.whereEqualTo("idCubiculo", NewidCubiculo)
                                             .get()
@@ -106,7 +106,7 @@ public class AgregarCubiculoActivity extends AppCompatActivity {
                                                                                }
 
                                                                                if (idCubExistente) {
-                                                                                   Toast.makeText(AgregarCubiculoActivity.this, "Ya existe un cubículo con el mismo numero3", Toast.LENGTH_SHORT).show();
+                                                                                   Toast.makeText(AgregarCubiculoActivity.this, "Ya existe un cubículo con el mismo numero", Toast.LENGTH_SHORT).show();
                                                                                } else {
                                                                                    agregarCubiculoFirestore(nombreCub, numeroCub, UbicacionCub, CapacidadCub, ServiciosE, EstadoC);
                                                                                      }

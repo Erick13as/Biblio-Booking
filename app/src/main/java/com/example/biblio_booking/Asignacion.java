@@ -8,7 +8,7 @@ public class Asignacion {
     private String cantidad;
     private String fecha;
 
-    public Asignacion(String horaEntrada, String cubiculo, String cantidad, String fecha,String horaSalida) {
+    public Asignacion(String horaEntrada, String cubiculo,String carnet, String cantidad, String fecha,String horaSalida) {
         this.horaEntrada = horaEntrada;
         this.horaSalida = horaSalida;
         this.cubiculo = cubiculo;
