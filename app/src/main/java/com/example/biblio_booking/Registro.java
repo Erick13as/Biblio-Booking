@@ -127,18 +127,24 @@ public class Registro extends AppCompatActivity {
                             // Data successfully uploaded to Firestore
                             // You can perform any desired actions here
                             // For example, display a success message
-                            Toast.makeText(Registro.this, "Data uploaded successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Registro.this, "Usuario registrado exitosamente", Toast.LENGTH_SHORT).show();
                         } else {
                             // Failed to upload data to Firestore
                             // You can handle the error here
-                            Toast.makeText(Registro.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Registro.this, "Registro de usuario fallida", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+        OpenMainE();
     }
 
     public void reOpenPrincipal() {
         Intent intent = new Intent(this, Principal.class);
+        startActivity(intent);
+    }
+
+    public void OpenMainE() {
+        Intent intent = new Intent(this, MainEstudiante.class);
         startActivity(intent);
     }
 }

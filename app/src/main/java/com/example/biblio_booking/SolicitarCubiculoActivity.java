@@ -103,14 +103,16 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
                             // Data successfully uploaded to Firestore
                             // You can perform any desired actions here
                             // For example, display a success message
-                            Toast.makeText(SolicitarCubiculoActivity.this, "Data uploaded successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SolicitarCubiculoActivity.this, "Solicitud realizada exitosamente", Toast.LENGTH_SHORT).show();
+
                         } else {
                             // Failed to upload data to Firestore
                             // You can handle the error here
-                            Toast.makeText(SolicitarCubiculoActivity.this, "Failed to upload data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SolicitarCubiculoActivity.this, "Solicitud fallida", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+        OpenMainE();
     }
     private void showDatePickerDialog() {
         // Get the current date
@@ -150,6 +152,11 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nombresCubiculos);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCubiculos.setAdapter(adapter);
+    }
+
+    public void OpenMainE() {
+        Intent intent = new Intent(this, MainEstudiante.class);
+        startActivity(intent);
     }
 
 }

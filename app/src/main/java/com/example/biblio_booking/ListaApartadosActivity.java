@@ -58,6 +58,7 @@ public class ListaApartadosActivity extends AppCompatActivity {
         Button buttonB = findViewById(R.id.ButtonB); // Find the button with ID "ButtonB"
         Button buttonE = findViewById(R.id.ButtonE); // Find the button with ID "ButtonE"
         Button buttonC = findViewById(R.id.ButtonC); // Find the button with ID "ButtonC"
+        Button ButtonV = findViewById(R.id.ButtonV);
 
         // Set click listener for the date button
         editText2.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +165,11 @@ public class ListaApartadosActivity extends AppCompatActivity {
             }
         });
 
+        ButtonV.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                OpenMainE();
+            }
+        });
         // Fetch all the assignments from Firestore initially
         fetchAllAssignments();
     }
@@ -407,6 +413,11 @@ public class ListaApartadosActivity extends AppCompatActivity {
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 
         return bitmap;
+    }
+
+    public void OpenMainE() {
+        Intent intent = new Intent(this, MainEstudiante.class);
+        startActivity(intent);
     }
 }
 
