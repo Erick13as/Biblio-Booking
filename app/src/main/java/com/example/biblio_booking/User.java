@@ -1,6 +1,7 @@
 package com.example.biblio_booking;
+import java.io.Serializable;
 
-public class User {
+public class User implements Serializable {
     private String nombre;
     private String apellido;
     private String apellido2;

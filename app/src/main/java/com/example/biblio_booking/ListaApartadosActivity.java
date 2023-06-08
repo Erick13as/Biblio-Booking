@@ -24,6 +24,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.zxing.BarcodeFormat;
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class ListaApartadosActivity extends AppCompatActivity {
 
+    private User user;
     private TextView editText;
     private TextView editText2;
     private LinearLayout linearLayout;
@@ -51,6 +53,10 @@ public class ListaApartadosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_apartados);
+
+        // Retrieve the User object from the intent
+        Intent intent = getIntent();
+        user = (User) intent.getSerializableExtra("user");
 
         editText = findViewById(R.id.editText);
         editText2 = findViewById(R.id.editText2);
@@ -198,18 +204,21 @@ public class ListaApartadosActivity extends AppCompatActivity {
         // Get a reference to the "assignments" collection in Firestore
         CollectionReference assignmentsRef = db.collection("Asignacion");
 
-        // Fetch all the assignments from Firestore
-        assignmentsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        // Create a query to filter the assignments by carnet
+        Query query = assignmentsRef.whereEqualTo("carnet", user.getCarnet());
+
+        // Fetch the assignments matching the query from Firestore
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     // Retrieve the query snapshot containing the assignment documents
                     QuerySnapshot querySnapshot = task.getResult();
 
-                    // Store all the assignments in a list
+                    // Store the assignments with matching carnet in a list
                     allAssignments = new ArrayList<>(querySnapshot.getDocuments());
 
-                    // Show all the assignments
+                    // Show the filtered assignments
                     showAssignments(allAssignments);
                 } else {
                     // Handle the error
@@ -218,6 +227,7 @@ public class ListaApartadosActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void filterAssignments(String cubiculo, String fecha) {
         // Clear the existing assignments from the list
@@ -232,6 +242,7 @@ public class ListaApartadosActivity extends AppCompatActivity {
         // Create a query to filter the assignments by cubiculo and fecha
         assignmentsRef.whereEqualTo("cubiculo", cubiculo)
                 .whereEqualTo("fecha", fecha)
+                .whereEqualTo("carnet", user.getCarnet()) // Compare with user's carnet
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -304,14 +315,13 @@ public class ListaApartadosActivity extends AppCompatActivity {
             String cubiculoAsignado = document.getString("cubiculo");
             String fechaAsignada = document.getString("fecha");
             String horaAsignada = document.getString("hora");
+            String carnet = document.getString("carnet");
 
             if (cubiculoAsignado.toLowerCase().contains(searchText.toLowerCase())
-                    && fechaAsignada.equals(selectedDate)) {
+                    && fechaAsignada.equals(selectedDate)
+                    && carnet.equals(user.getCarnet())) { // Compare with user's carnet
                 // Get the document ID as the booking ID
                 String bookingId = document.getId();
-
-                // Get the carnet value from the document
-                String carnet = document.getString("carnet");
 
                 // Prepare the data string to encode in the QR code
                 String data = "ID de la Asignación: " + bookingId

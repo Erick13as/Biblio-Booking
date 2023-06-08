@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity {
     private void checkUser(String correo, String contraseña) {
         Query query = db.collection("usuario");
         if (correo != null && !correo.isEmpty()) {
-                query = query.whereEqualTo("correo", correo);
+            query = query.whereEqualTo("correo", correo);
             if (contraseña != null && !contraseña.isEmpty()) {
                 query = query.whereEqualTo("contraseña", contraseña);
             } else {
@@ -112,18 +112,31 @@ public class Login extends AppCompatActivity {
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     infoEstudiante.add(documentSnapshot.getString("carnet"));
                     idTipo = documentSnapshot.getString("idTipo");
-                }
 
-                if (!infoEstudiante.isEmpty()) {
-                    if (idTipo.equals("Estudiante")){
+                    // Retrieve other user information
+                    String nombre = documentSnapshot.getString("nombre");
+                    String apellido = documentSnapshot.getString("apellido");
+                    String apellido2 = documentSnapshot.getString("apellido2");
+                    String carnet = documentSnapshot.getString("carnet");
+                    String fechaNac = documentSnapshot.getString("fechaNac");
+                    String correo = documentSnapshot.getString("correo");
+                    String contraseña = documentSnapshot.getString("contraseña");
+                    String idEstado = documentSnapshot.getString("idEstado");
+
+                    // Create User object with retrieved data
+                    User user = new User(nombre, apellido, apellido2, carnet, fechaNac, correo, contraseña, idTipo, idEstado);
+
+                    if (idTipo.equals("Estudiante")) {
                         Intent intent = new Intent(Login.this, MainEstudiante.class);
+                        intent.putExtra("user", user); // Pass the user object
                         startActivity(intent);
-                    }
-                    else{
+                    } else {
                         Intent intent = new Intent(Login.this, MainAdministrador.class);
                         startActivity(intent);
                     }
-                } else {
+                }
+
+                if (infoEstudiante.isEmpty()) {
                     correoEditText.setError("Contraseña o Correo Invalido");
                     correoEditText.requestFocus();
                 }
