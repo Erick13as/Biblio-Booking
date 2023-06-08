@@ -14,12 +14,15 @@ import android.widget.Spinner;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -114,19 +117,9 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //verificar que ninguno este vacio al presionar guardar
-                //verificar que existan dos apellidos
-                updateInfoEstudiante(carnet.getText().toString());
-                resetEmpty(true);
-                alerta.setTitle("Éxito");
-                alerta.setMessage("Estudiante " + carnet.getText().toString() + "ha sido modificado");
-                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                alerta.show();
+                if(validTextInput(carnet) && validTextInput(nombre) && validTextInput(apellido) && validTextInput(fechaNacimiento) && validTextInput(correo) && validTextInput(contrasena)){
+                    updateInfoEstudiante(carnet.getText().toString(), alerta);
+                }
             }
         });
     }
@@ -159,7 +152,6 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
             return true;
         }
     }
-
     private void resetEmpty(boolean e){
         if(e){ carnet.setText(""); }
         nombre.setText("");
@@ -170,15 +162,12 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
         estado.setSelection(0);
     }
 
-    private void editSpinnerSeleccionados(Spinner spinE){
-        //no me esta editando el spinner
-        String strE = infoEstudiante.get(5).toUpperCase();
-        System.out.println("string:::::" + strE);
-        System.out.println("item:::::" + spinE.getItemAtPosition(1).toString());
+    private void editSpinnerSeleccionados(Spinner spinE) {
+        String selectedItem = infoEstudiante.get(5).toUpperCase();
+        String itemAtPosition1 = spinE.getItemAtPosition(1).toString().toUpperCase();
         int posFinalE = 0;
 
-        if(strE == spinE.getItemAtPosition(1).toString()){
-            System.out.println("entra");
+        if (selectedItem.equalsIgnoreCase(itemAtPosition1)) {
             posFinalE = 1;
         }
 
@@ -207,7 +196,49 @@ public class ModificarEstudianteActivity extends AppCompatActivity {
         }
     }
 
-    private void updateInfoEstudiante(String carnet){
+    private void updateInfoEstudiante(String carnet, AlertDialog.Builder alerta){
+        CollectionReference collectionRef = db.collection("usuario");
 
+        collectionRef.whereEqualTo("carnet", carnet).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                for (QueryDocumentSnapshot documentSnapshot : querySnapshot) {
+                        DocumentReference docRef = documentSnapshot.getReference();
+
+                        String[] apellidos = apellido.getText().toString().split(" ");
+
+                        docRef.update("nombre", nombre.getText().toString());
+                        docRef.update("apellido", apellidos[0]);
+                        docRef.update("apellido2", apellidos.length == 1 ? "" : apellidos[1]);
+                        docRef.update("correo", correo.getText().toString());
+                        docRef.update("contraseña", contrasena.getText().toString());
+                        docRef.update("fechaNac", fechaNacimiento.getText().toString());
+                        docRef.update("idEstado", estado.getSelectedItem().toString().substring(0, 1).toUpperCase() + estado.getSelectedItem().toString().substring(1).toLowerCase());
+                }
+
+                alerta.setTitle("Éxito");
+                alerta.setMessage("Estudiante " + carnet + " ha sido modificado");
+                alerta.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                alerta.show();
+                resetEmpty(true);
+            }
+            else{
+                alerta.setTitle("Error");
+                alerta.setMessage("Hubo un problema al modificar, intente de nuevo");
+                alerta.setNegativeButton("OKK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                alerta.show();
+                resetEmpty(false);
+            }
+        });
     }
 }
