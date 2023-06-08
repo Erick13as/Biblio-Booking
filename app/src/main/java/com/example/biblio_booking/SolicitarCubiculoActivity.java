@@ -89,7 +89,7 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
 
 
         // Create a new User object
-        Asignacion asignacion = new Asignacion(horaSoli,CubiSoli,carnet,CantSoli,FechaSoli);
+        Asignacion asignacion = new Asignacion(horaSoli,CubiSoli,null,CantSoli,FechaSoli);
 
         // Get a reference to the "users" collection in Firestore
         CollectionReference usersCollection = mFirestore.collection("Asignacion");
