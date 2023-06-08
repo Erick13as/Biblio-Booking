@@ -5,17 +5,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.content.Intent;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class EliminarEstudianteActivity extends AppCompatActivity {
+public class EliminarEstudiante extends AppCompatActivity {
 
     private TextInputEditText carnetEditText;
     private Button eliminarButton;
-
+    private Button volverButton;
     private FirebaseFirestore db;
     private CollectionReference studentsRef;
 
@@ -37,8 +38,23 @@ public class EliminarEstudianteActivity extends AppCompatActivity {
                 eliminarEstudiante(carnet);
             }
         });
+
+
+
+        volverButton = findViewById(R.id.volver); // Inicialización del botón volverButton
+
+        volverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                volverEstudiante();
+            }
+        });
     }
 
+    public void volverEstudiante() {
+        Intent intent = new Intent(this, Estudiantes.class);
+        startActivity(intent);
+    }
     private void eliminarEstudiante(String carnet) {
         Query query = studentsRef.whereEqualTo("carnet", carnet);
         query.get().addOnCompleteListener(task -> {

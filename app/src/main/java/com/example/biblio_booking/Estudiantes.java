@@ -42,7 +42,7 @@ public class Estudiantes extends AppCompatActivity {
     }
 
     public void OpenEliminarEstudiante() {
-        Intent intent = new Intent(this, EliminarEstudianteActivity.class);
+        Intent intent = new Intent(this, EliminarEstudiante.class);
         startActivity(intent);
     }
     public void OpenModificarEstudiante() {
