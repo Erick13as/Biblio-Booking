@@ -73,6 +73,7 @@ public class EliminarEstudiante extends AppCompatActivity {
                     // Match found, get the data
                     String nombre = querySnapshot.getDocuments().get(0).getString("nombre");
                     String apellido = querySnapshot.getDocuments().get(0).getString("apellido");
+                    String apellido2 = querySnapshot.getDocuments().get(0).getString("apellido2");
 
                     // Mostrar el nombre y el apellido en el ScrollView
                     ScrollView scrollViewEstudiante = findViewById(R.id.scrollEstudiante);
@@ -80,7 +81,7 @@ public class EliminarEstudiante extends AppCompatActivity {
 
                     // Crear TextView para mostrar el nombre y el apellido
                     TextView textViewEst = new TextView(this);
-                    textViewEst.setText( nombre + " " + apellido+ "                                                                             " );
+                    textViewEst.setText( nombre + " " + apellido+ " " +apellido2+"\n");
 
                     // Agregar el TextView al LinearLayout dentro del ScrollView
                     linearLayoutEstudiante.addView(textViewEst);
@@ -123,5 +124,10 @@ public class EliminarEstudiante extends AppCompatActivity {
                 // Handle the failure or show an error message
             }
         });
+        OpenMainA();
+    }
+    public void OpenMainA() {
+        Intent intent = new Intent(this, MainAdministrador.class);
+        startActivity(intent);
     }
 }

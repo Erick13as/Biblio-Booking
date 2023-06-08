@@ -212,6 +212,7 @@ public class SolicitarCubiculoActivity extends AppCompatActivity {
 
     public void OpenMainE() {
         Intent intent = new Intent(this, MainEstudiante.class);
+        intent.putExtra("user", user);
         startActivity(intent);
     }
 

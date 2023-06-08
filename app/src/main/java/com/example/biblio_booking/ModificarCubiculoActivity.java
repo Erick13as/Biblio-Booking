@@ -2,6 +2,7 @@ package com.example.biblio_booking;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -217,5 +218,10 @@ public class ModificarCubiculoActivity extends AppCompatActivity {
                 resetEmpty(false);
             }
         });
+        OpenMainA();
+    }
+    public void OpenMainA() {
+        Intent intent = new Intent(this, MainAdministrador.class);
+        startActivity(intent);
     }
 }

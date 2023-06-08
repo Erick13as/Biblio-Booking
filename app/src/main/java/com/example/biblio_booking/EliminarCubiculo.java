@@ -45,14 +45,14 @@ public class EliminarCubiculo extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String numero = numeroEditText.getText().toString();
-                eliminarCubiculo(numero);
+                eliminarCubiculo("cub"+numero);
             }
         });
         buscarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String numero = numeroEditText.getText().toString();
-                buscarCub(numero);
+                buscarCub("cub"+numero);
             }
         });
 
@@ -85,6 +85,7 @@ public class EliminarCubiculo extends AppCompatActivity {
                 // Handle the failure or show an error message
             }
         });
+        OpenMainA();
     }
     private void buscarCub(String numero) {
         Query query = cubiculosRef.whereEqualTo("idCubiculo", numero);
@@ -119,5 +120,9 @@ public class EliminarCubiculo extends AppCompatActivity {
                 // Handle the failure or show an error message
             }
         });
+    }
+    public void OpenMainA() {
+        Intent intent = new Intent(this, MainAdministrador.class);
+        startActivity(intent);
     }
 }

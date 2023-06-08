@@ -3,6 +3,7 @@ package com.example.biblio_booking;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -142,5 +143,10 @@ public class AgregarCubiculoActivity extends AppCompatActivity {
                         return;
                     }
                 });
+        OpenMainA();
+    }
+    public void OpenMainA() {
+        Intent intent = new Intent(this, MainAdministrador.class);
+        startActivity(intent);
     }
 }

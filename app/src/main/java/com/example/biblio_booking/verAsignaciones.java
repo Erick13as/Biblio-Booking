@@ -83,7 +83,7 @@ public class verAsignaciones extends AppCompatActivity {
                     // Create a TextView for each assignment and add it to the LinearLayout
                     TextView textViewAssignment = new TextView(verAsignaciones.this);
                     textViewAssignment.setText("Carnet: " + carnetEstudiante
-                            + "Cubiculo: " + cubiculoAsignado
+                            + "\nCubiculo: " + cubiculoAsignado
                             + "\nFecha: " + fechaAsignada
                             + "\nHora: " + horaAsignada
                             + "\nCantidad de estudiantes: " + cantidadAsignada + "\n");

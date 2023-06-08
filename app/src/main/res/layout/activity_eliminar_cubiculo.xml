@@ -38,7 +38,7 @@
             android:layout_marginTop="212dp"
             android:backgroundTint="#132BFF"
             android:hint="Número de cubículo"
-            android:inputType="text"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
