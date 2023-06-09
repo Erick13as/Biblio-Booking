@@ -135,7 +135,7 @@ public class Registro extends AppCompatActivity {
                         }
                     }
                 });
-        Intent intent = new Intent(this, MainEstudiante.class);
+        Intent intent = new Intent(this, Login.class);
         intent.putExtra("user", user); // Pass the user object
         startActivity(intent);
     }
